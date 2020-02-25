@@ -28,6 +28,9 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.102'
+          source-url: https://nuget.pkg.github.com/a3nick/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Nuget restore
         run: dotnet restore
       - name: Pack
@@ -41,23 +44,6 @@ jobs:
             -p:BuildNumber=${GITHUB_RUN_NUMBER:=0} \
             -p:RevisionNumber=${REVISIONNUMBER:=0} \
             $PROJECT_PATH
-      - name: Configure dotnet source
-        run: |
-          echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-            <configuration>
-                <packageSources>
-                    <add key=\"github\" value=\"https://nuget.pkg.github.com/a3nick/index.json\" />
-                </packageSources>
-                <github>
-                    <add key=\"Username\" value=\"a3nick\" />
-                    <add key=\"ClearTextPassword\" value=\"${{ secrets.GITHUB_TOKEN }}\" />
-                </github>
-            </configuration>" > nuget.config
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: ToDelete
-          path: nuget.config
       - name: Publish
         run: |
-          for package in ./artifacts/*.nupkg; do dotnet nuget push --source github $package; done
+          for package in ./artifacts/*.nupkg; do dotnet nuget push $package; done
