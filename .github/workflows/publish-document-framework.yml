@@ -32,6 +32,7 @@ jobs:
         run: dotnet restore
       - name: Pack
         run: |
+          echo $GITHUB_RUN_ID
           dotnet pack --configuration=release \
             --include-symbols \
             --include-source \
