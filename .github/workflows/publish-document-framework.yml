@@ -21,17 +21,18 @@ env:
 
 
 jobs:
-  build-nuget-:
-    name: RabbitMQ Test
+  build-nuget:
+    name: Build and publish nuget package
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.100'
-      - name: Test
+      - name: Nuget restor
+        run: dotnet restore
+      - name: Pack
         run: |
-          dotnet restore &&
           dotnet pack --configuration=release \
             --include-symbols \
             --include-source \
@@ -41,3 +42,6 @@ jobs:
             -p:BuildNumber=${BUILDNUMBER:=0} \
             -p:RevisionNumber=${REVISIONNUMBER:=0} \
             $PROJECT_PATH
+      - name: Publish
+        run: |
+          for package in ./artifacts/*.nupkg; do dotnet nuget push --source github $package; done
