@@ -1,12 +1,12 @@
-name: NuGet packages
+name: NuGet - Json Support
 
 on:
   push:
     branches:
       - master
       - nuget-packages
-    # paths:
-    #   - src/WildStrategies.DocumentFramework.Json/**
+    paths:
+      - src/WildStrategies.DocumentFramework.Json/**
 
 
 env:

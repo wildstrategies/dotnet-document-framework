@@ -1,4 +1,4 @@
-name: NuGet packages
+name: NuGet - Main Package
 
 on:
   push:
