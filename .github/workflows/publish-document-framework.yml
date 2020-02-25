@@ -53,7 +53,11 @@ jobs:
                     <add key=\"ClearTextPassword\" value=\"${{ secrets.GITHUB_TOKEN }}\" />
                 </github>
             </configuration>" > nuget.config
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: ToDelete
+          path: nuget.config
       - name: Publish
         run: |
-          cat nuget.config
           for package in ./artifacts/*.nupkg; do dotnet nuget push --source github $package; done
