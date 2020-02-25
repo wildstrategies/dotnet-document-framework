@@ -26,15 +26,15 @@ namespace WildStrategies.DocumentFramework
     {
         public override ValueObjectCollection<TValueObject> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var values = (IEnumerable)JsonSerializer.Deserialize(
+            IEnumerable values = (IEnumerable)JsonSerializer.Deserialize(
                 ref reader,
                 typeof(List<>).MakeGenericType(typeToConvert.GetGenericTypeArgument<ValueObject>()),
                 options
             );
 
-            var output = (ValueObjectCollection<TValueObject>)Activator.CreateInstance(typeof(ValueObjectCollection<TValueObject>));
+            ValueObjectCollection<TValueObject> output = (ValueObjectCollection<TValueObject>)Activator.CreateInstance(typeof(ValueObjectCollection<TValueObject>));
 
-            foreach (var value in values)
+            foreach (object value in values)
             {
                 output.Add(value as TValueObject);
             }

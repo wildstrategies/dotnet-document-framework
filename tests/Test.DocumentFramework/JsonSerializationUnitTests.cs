@@ -12,7 +12,7 @@ namespace Test.DocumentFramework
         {
             get
             {
-                var output = new TestEntity()
+                TestEntity output = new TestEntity()
                 {
                     Title = "TestEntityTitle",
                     Instant = NodaTime.SystemClock.Instance.GetCurrentInstant(),
@@ -41,7 +41,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ModelSerialization()
         {
-            var document = TestEntity.CreateDocument();
+            Document<TestEntity> document = TestEntity.CreateDocument();
             string serialized = document.ToJson();
 
             Assert.IsNotNull(serialized);
@@ -50,7 +50,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ModelDeserialization()
         {
-            var document = TestEntity.Child.CreateDocument();
+            Document<TestEntity> document = TestEntity.Child.CreateDocument();
             string serialized = document.ToJson();
             Document<TestEntity> deserialized = serialized.FromJson<TestEntity>();
 
@@ -60,7 +60,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ModelDeserializationWithChild()
         {
-            var document = TestEntity.CreateDocument();
+            Document<TestEntity> document = TestEntity.CreateDocument();
             string serialized = document.ToJson();
             Document<TestEntity> deserialized = serialized.FromJson<TestEntity>();
 
