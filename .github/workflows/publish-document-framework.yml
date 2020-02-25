@@ -46,4 +46,5 @@ jobs:
             $PROJECT_PATH
       - name: Publish
         run: |
+          rm -f ./artifacts/*.symbols.nupkg
           for package in ./artifacts/*.nupkg; do dotnet nuget push $package; done
