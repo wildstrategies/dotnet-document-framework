@@ -42,6 +42,18 @@ jobs:
             -p:BuildNumber=${BUILDNUMBER:=0} \
             -p:RevisionNumber=${REVISIONNUMBER:=0} \
             $PROJECT_PATH
+      - name: Configure dotnet source
+        run: |
+          echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+            <configuration>
+                <packageSources>
+                    <add key=\"github\" value=\"https://nuget.pkg.github.com/a3nick/index.json\" />
+                </packageSources>
+                <github>
+                    <add key=\"Username\" value=\"a3nick\" />
+                    <add key=\"ClearTextPassword\" value=\"${{ secrets.GITHUB_TOKEN }}\" />
+                </github>
+            </configuration>" > nuget.config
       - name: Publish
         run: |
           for package in ./artifacts/*.nupkg; do dotnet nuget push --source github $package; done
