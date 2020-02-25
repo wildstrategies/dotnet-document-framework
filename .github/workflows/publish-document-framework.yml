@@ -32,7 +32,6 @@ jobs:
         run: dotnet restore
       - name: Pack
         run: |
-          echo $GITHUB_RUN_NUMBER
           dotnet pack --configuration=release \
             --include-symbols \
             --include-source \
@@ -56,4 +55,5 @@ jobs:
             </configuration>" > nuget.config
       - name: Publish
         run: |
+          ls -la
           for package in ./artifacts/*.nupkg; do dotnet nuget push --source github $package; done
