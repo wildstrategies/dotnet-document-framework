@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - nuget-packages
     paths:
       - src/WildStrategies.DocumentFramework.Json/**
 
