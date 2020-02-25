@@ -15,7 +15,6 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   MAYORNUMBER: 1
   MINORNUMBER: 0
-  BUILDNUMBER: ${GITHUB_RUN_ID}
   PROJECT_PATH: src/WildStrategies.DocumentFramework
 
 
@@ -28,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '3.1.100'
+          dotnet-version: '3.1.102'
       - name: Nuget restore
         run: dotnet restore
       - name: Pack
@@ -39,7 +38,7 @@ jobs:
             -o ./artifacts \
             -p:MayorNumber=${MAYORNUMBER:=1} \
             -p:MinorNumber=${MINORNUMBER:=0} \
-            -p:BuildNumber=${BUILDNUMBER:=0} \
+            -p:BuildNumber=${GITHUB_RUN_ID:=0} \
             -p:RevisionNumber=${REVISIONNUMBER:=0} \
             $PROJECT_PATH
       - name: Configure dotnet source
