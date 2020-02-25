@@ -32,14 +32,14 @@ jobs:
         run: dotnet restore
       - name: Pack
         run: |
-          echo $GITHUB_RUN_ID
+          echo $GITHUB_RUN_NUMBER
           dotnet pack --configuration=release \
             --include-symbols \
             --include-source \
             -o ./artifacts \
             -p:MayorNumber=${MAYORNUMBER:=1} \
             -p:MinorNumber=${MINORNUMBER:=0} \
-            -p:BuildNumber=${GITHUB_RUN_ID:=0} \
+            -p:BuildNumber=${GITHUB_RUN_NUMBER:=0} \
             -p:RevisionNumber=${REVISIONNUMBER:=0} \
             $PROJECT_PATH
       - name: Configure dotnet source
