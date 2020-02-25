@@ -55,5 +55,5 @@ jobs:
             </configuration>" > nuget.config
       - name: Publish
         run: |
-          ls -la
+          cat nuget.config
           for package in ./artifacts/*.nupkg; do dotnet nuget push --source github $package; done
