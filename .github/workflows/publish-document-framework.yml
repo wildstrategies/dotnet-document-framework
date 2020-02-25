@@ -1,0 +1,43 @@
+name: NuGet packages
+
+# ${{ secrets.GITHUB_TOKEN }}
+
+on:
+  push:
+    branches:
+      - master
+      - nuget-packages
+    # paths:
+    #   - src/WildStrategies.DocumentFramework/**
+
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  MAYORNUMBER: 1
+  MINORNUMBER: 0
+  BUILDNUMBER: $GITHUB_RUN_ID
+  PROJECT_PATH: src/WildStrategies.DocumentFramework
+
+
+
+jobs:
+  build-nuget-:
+    name: RabbitMQ Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.100'
+      - name: Test
+        run: |
+          dotnet restore &&
+          dotnet pack --configuration=release \
+            --include-symbols \
+            --include-source \
+            -o ./artifacts \
+            -p:MayorNumber=${MAYORNUMBER:=1} \
+            -p:MinorNumber=${MINORNUMBER:=0} \
+            -p:BuildNumber=${BUILDNUMBER:=0} \
+            -p:RevisionNumber=${REVISIONNUMBER:=0} \
+            $PROJECT_PATH
