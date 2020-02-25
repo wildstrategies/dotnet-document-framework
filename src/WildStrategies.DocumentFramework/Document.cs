@@ -3,7 +3,7 @@ using System;
 
 namespace WildStrategies.DocumentFramework
 {
-    public sealed class Document<TEntity> : DocumentFrameworkObject, IIDProvider, ICreatedTimeProvider, ILatsUpdateTime
+    public sealed class Document<TEntity> : DocumentFrameworkObject, IIDProvider, ICreatedTimeProvider, ILatsUpdateTimeProvider, IDeletedProvider
         where TEntity : Entity
     {
         internal Document(TEntity root)
@@ -15,5 +15,8 @@ namespace WildStrategies.DocumentFramework
         public TEntity Root { get; private set; }
         public Instant CreatedTime { get; private set; } = SystemClock.Instance.GetCurrentInstant();
         public Instant LatsUpdateTime { get; private set; } = SystemClock.Instance.GetCurrentInstant();
+        public Instant DeletedTime { get; private set; }
+
+        public bool Deleted => DeletedTime != null;
     }
 }

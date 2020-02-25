@@ -2,7 +2,7 @@
 
 namespace WildStrategies.DocumentFramework
 {
-    public interface ILatsUpdateTime
+    public interface ILatsUpdateTimeProvider
     {
         Instant LatsUpdateTime { get; }
     }

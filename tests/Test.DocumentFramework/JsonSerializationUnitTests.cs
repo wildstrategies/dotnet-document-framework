@@ -8,22 +8,40 @@ namespace Test.DocumentFramework
     [TestCategory("JsonSerialization")]
     public class JsonSerializationUnitTests
     {
-        private readonly static TestEntity testEntity = new TestEntity()
+        private static TestEntity TestEntity
         {
-            Title = "TestEntityTitle",
-            Instant = NodaTime.SystemClock.Instance.GetCurrentInstant(),
-            Value = 13,
-            Child = new TestEntity()
+            get
             {
-                Title = "TestEntityTitle",
-                Value = 12
+                var output = new TestEntity()
+                {
+                    Title = "TestEntityTitle",
+                    Instant = NodaTime.SystemClock.Instance.GetCurrentInstant(),
+                    Value = 13,
+                    Child = new TestEntity()
+                    {
+                        Title = "TestEntityTitle",
+                        Value = 12,
+                    }
+                };
+
+                output.ValueObjects.Add(new TestValueObject() { ValueTitle = "P1" });
+                output.ValueObjects.Add(new TestValueObject() { ValueTitle = "P2" });
+                output.ValueObjects.Add(new TestValueObject() { ValueTitle = "P3" });
+
+                output.Child.ValueObjects.Add(new TestValueObject() { ValueTitle = "C1" });
+                output.Child.ValueObjects.Add(new TestValueObject() { ValueTitle = "C2" });
+                output.Child.ValueObjects.Add(new TestValueObject() { ValueTitle = "C3" });
+                output.Child.ValueObjects.Add(new TestValueObject() { ValueTitle = "C4" });
+
+
+                return output;
             }
-        };
+        }
 
         [TestMethod]
         public void ModelSerialization()
         {
-            var document = testEntity.CreateDocument();
+            var document = TestEntity.CreateDocument();
             string serialized = document.ToJson();
 
             Assert.IsNotNull(serialized);
@@ -32,7 +50,17 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ModelDeserialization()
         {
-            var document = testEntity.CreateDocument();
+            var document = TestEntity.Child.CreateDocument();
+            string serialized = document.ToJson();
+            Document<TestEntity> deserialized = serialized.FromJson<TestEntity>();
+
+            Assert.AreEqual(document, deserialized);
+        }
+
+        [TestMethod]
+        public void ModelDeserializationWithChild()
+        {
+            var document = TestEntity.CreateDocument();
             string serialized = document.ToJson();
             Document<TestEntity> deserialized = serialized.FromJson<TestEntity>();
 

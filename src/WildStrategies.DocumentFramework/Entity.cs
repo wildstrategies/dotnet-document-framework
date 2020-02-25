@@ -2,7 +2,7 @@
 
 namespace WildStrategies.DocumentFramework
 {
-    public abstract class Entity : ValueObject, ILatsUpdateTime
+    public abstract class Entity : ValueObject, ILatsUpdateTimeProvider
     {
         public Instant LatsUpdateTime { get; protected set; } = SystemClock.Instance.GetCurrentInstant();
     }

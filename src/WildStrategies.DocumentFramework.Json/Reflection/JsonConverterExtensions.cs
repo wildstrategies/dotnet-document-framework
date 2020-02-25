@@ -47,7 +47,7 @@ namespace WildStrategies.DocumentFramework
 
         public static IDocumentFrameworkObject DeserializeFrameworkObject(this ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var values = reader.ReadValues(typeToConvert, options);
+            Dictionary<string, object> values = reader.ReadValues(typeToConvert, options);
 
             IDocumentFrameworkObject output = (IDocumentFrameworkObject)Activator.CreateInstance(typeToConvert);
             foreach (System.Reflection.PropertyInfo property in typeToConvert.GetSerializableProperties().Where(x =>
@@ -82,6 +82,31 @@ namespace WildStrategies.DocumentFramework
 
             writer.WriteEndObject();
 
+        }
+
+        public static Type GetGenericTypeArgument<TArgument>(this Type typeToConvert)
+        {
+            if (typeToConvert.IsGenericType)
+            {
+                Type[] genericTypes = typeToConvert.GetGenericArguments();
+                if (genericTypes.Length == 1 && genericTypes[0].IsSubclassOf(typeof(TArgument)))
+                {
+                    return genericTypes[0];
+                }
+            }
+
+            return null;
+        }
+
+        public static Type GetGenericType<TArgument>(this Type typeToConvert, Type genericType)
+        {
+            Type objectType = GetGenericTypeArgument<TArgument>(typeToConvert);
+            if (objectType != null)
+            {
+                return genericType.MakeGenericType(objectType);
+            }
+
+            return null;
         }
     }
 }

@@ -16,12 +16,12 @@ namespace WildStrategies.DocumentFramework
                     _serializerOptions = new JsonSerializerOptions()
                     {
                         IgnoreReadOnlyProperties = false,
-                        PropertyNameCaseInsensitive = false,
+                        PropertyNameCaseInsensitive = false
                     };
 
-                    
                     _serializerOptions.Converters.Add(new JsonDocumentConverterFactory());
-                    _serializerOptions.Converters.Add(new JsonDocumentFrameworkConverter());
+                    _serializerOptions.Converters.Add(new JsonDocumentFrameworkConverterFactory());
+                    _serializerOptions.Converters.Add(new JsonValueObjectCollectionConverterFactory());
                     _serializerOptions.ConfigureForNodaTime(NodaTime.DateTimeZoneProviders.Tzdb);
                 }
 

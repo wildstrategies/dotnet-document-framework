@@ -4,21 +4,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WildStrategies.DocumentFramework
 {
-    public abstract class DocumentFrameworkObject : IDocumentFrameworkObject
+    public abstract class BaseDocumentFrameworkObject
     {
-        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
-
         public override bool Equals(object obj)
         {
-            if (obj != null && obj.GetType().Equals(this.GetType()))
+            if (obj != null && obj.GetType().Equals(GetType()))
             {
-                foreach (var property in GetType().GetProperties())
+                foreach (System.Reflection.PropertyInfo property in GetType().GetProperties())
                 {
-                    var thisValue = property.GetValue(this);
-                    var objValue = property.GetValue(this);
+                    object thisValue = property.GetValue(this);
+                    object objValue = property.GetValue(obj);
 
                     if (thisValue != objValue && (thisValue == null || !thisValue.Equals(objValue)))
                     {
@@ -36,12 +31,20 @@ namespace WildStrategies.DocumentFramework
         {
             int hashCode = 17;
 
-            foreach (var property in GetType().GetProperties())
+            foreach (System.Reflection.PropertyInfo property in GetType().GetProperties())
             {
                 hashCode *= 23 + property.GetValue(this).GetHashCode();
             }
 
             return hashCode;
+        }
+    }
+
+    public abstract class DocumentFrameworkObject : BaseDocumentFrameworkObject, IDocumentFrameworkObject
+    {
+        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            throw new NotImplementedException();
         }
     }
 }
