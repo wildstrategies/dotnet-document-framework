@@ -29,7 +29,7 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.100'
-      - name: Nuget restor
+      - name: Nuget restore
         run: dotnet restore
       - name: Pack
         run: |
