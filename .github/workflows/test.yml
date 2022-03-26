@@ -11,6 +11,7 @@ on:
 env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
+
 jobs:
   unit-tests:
     name: Unit Tests
@@ -25,11 +26,12 @@ jobs:
         with:
           mongodb-version: '5.0'
       - name: Test
+        env:
+          CUSTOMCONNSTR_MONGODB: mongodb://localhost:27017
+          DOTNET_SETTINGS__DATABASENAME: test
+          DOTNET_SETTINGS__RESTAURANTSCOLLECTIONNAME: test
         run: |
           dotnet restore &&
-          export CUSTOMCONNSTR_MONGODB=mongodb://localhost:27017
-          export DOTNET_SETTINGS__DATABASENAME=test
-          export DOTNET_SETTINGS__RESTAURANTSCOLLECTIONNAME=test
           dotnet test --test-adapter-path:. --logger:"junit;LogFilePath=..\..\.artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" --collect:"XPlat Code Coverage" --settings coverlet.runsettings.xml &&
           mkdir ./.artifacts -p &&
           for cover in $(find ./tests -type f -name 'coverage.*.xml'); do coverPath=${cover#./tests/};cp $cover ./.artifacts/${coverPath%%/*}-$(basename $cover); done &&
