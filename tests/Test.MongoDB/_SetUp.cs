@@ -36,7 +36,8 @@ namespace Test.MongoDB
         public static async Task Initialize(TestContext testContext)
         {
             _configuration = new ConfigurationBuilder()
-                .AddUserSecrets(typeof(SetUp).GetTypeInfo().Assembly)
+                .AddEnvironmentVariables()
+                .AddUserSecrets(typeof(SetUp).GetTypeInfo().Assembly, true)
                 .Build();
 
             _testContext = testContext;
