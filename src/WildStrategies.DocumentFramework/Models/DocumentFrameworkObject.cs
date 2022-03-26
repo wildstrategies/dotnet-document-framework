@@ -8,7 +8,7 @@ namespace WildStrategies.DocumentFramework
     {
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            throw new NotImplementedException();
+            return Array.Empty<ValidationResult>();
         }
     }
 }

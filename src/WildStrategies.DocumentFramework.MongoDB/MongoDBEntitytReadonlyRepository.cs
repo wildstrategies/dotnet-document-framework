@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace WildStrategies.DocumentFramework
 {
+
     public abstract class MongoDBEntitytReadonlyRepository<T> : IEntityReadOnlyRepository<T> where T : Entity
     {
         private readonly MongoDBEntityRepositorySettings _settings;
@@ -54,7 +55,7 @@ namespace WildStrategies.DocumentFramework
             _collection = _database.GetCollection<T>(collectionName);
         }
 
-        private FilterDefinition<T> GetFilterById(Guid id) =>
+        protected FilterDefinition<T> GetFilterById(Guid id) =>
             Builders<T>.Filter.Eq(nameof(Entity.Id), id);
 
         public MongoDBEntitytReadonlyRepository(MongoDBEntityRepositorySettings settings) :

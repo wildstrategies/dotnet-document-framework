@@ -5,6 +5,7 @@
 
 .[Ll]ocal/
 nuget_packages/
+.artifacts/
 
 # User-specific files
 *.rsuser

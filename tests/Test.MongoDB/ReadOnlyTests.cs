@@ -1,12 +1,22 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Test.Shared;
 
 namespace Test.MongoDB
 {
     [TestClass]
     public class ReadOnlyTests
     {
+        private static RestaurantsRepository _repository = null!;
+
+        [ClassInitialize]
+        public static void Initialize(TestContext context)
+        {
+            _repository = new RestaurantsRepository(SetUp.RestaurantRepositorySettings);
+        }
+
         [TestMethod]
         public void GetFirst()
         {
@@ -57,6 +67,13 @@ namespace Test.MongoDB
         }
 
         [TestMethod]
+        public async Task GetAllAsync()
+        {
+            var result = await SetUp.GetRestaurantsRepository().GetAsync();
+            Assert.IsTrue(result.Any());
+        }
+
+        [TestMethod]
         public void GetAll()
         {
             var result = SetUp.GetRestaurantsRepository().AsQueryable().ToList();
@@ -82,10 +99,10 @@ namespace Test.MongoDB
         }
 
         [TestMethod]
-        public async Task GetAllAsync()
+        public async Task AddEmptyEntityAsync()
         {
-            var result = await SetUp.GetRestaurantsRepository().GetAsync();
-            Assert.IsTrue(result.Any());
+            var entity = new RestaurantEntity();
+            await Assert.ThrowsExceptionAsync<ValidationException>(() => SetUp.GetRestaurantsRepository().CreateOrUpdate(entity));
         }
     }
 }

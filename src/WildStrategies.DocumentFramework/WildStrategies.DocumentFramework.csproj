@@ -20,7 +20,6 @@
 		<Authors>Nicola Luraghi</Authors>
 		<Company>WildStrategies</Company>
 		<RepositoryUrl>https://github.com/wildstrategies/dotnet-document-framework</RepositoryUrl>
-		<UserSecretsId>113d18cc-b1e6-443a-bd20-feacd032a195</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
