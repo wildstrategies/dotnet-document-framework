@@ -1,9 +1,9 @@
-﻿using NodaTime;
+﻿using System;
 
 namespace WildStrategies.DocumentFramework
 {
     public interface ILatsUpdateTimeProvider
     {
-        Instant LatsUpdateTime { get; }
+        DateTime LatsUpdateTime { get; }
     }
 }

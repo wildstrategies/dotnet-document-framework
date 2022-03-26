@@ -1,9 +1,9 @@
-﻿using NodaTime;
+﻿using System;
 
 namespace WildStrategies.DocumentFramework
 {
     public interface ICreatedTimeProvider
     {
-        Instant CreatedTime { get; }
+        DateTime CreatedTime { get; }
     }
 }

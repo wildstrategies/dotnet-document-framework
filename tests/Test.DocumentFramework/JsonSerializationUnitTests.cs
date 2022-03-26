@@ -15,12 +15,17 @@ namespace Test.DocumentFramework
                 TestEntity output = new TestEntity()
                 {
                     Title = "TestEntityTitle",
-                    Instant = NodaTime.SystemClock.Instance.GetCurrentInstant(),
                     Value = 13,
                     Child = new TestEntity()
                     {
                         Title = "TestEntityTitle",
                         Value = 12,
+                    },
+                    Enumerable = new[] { "1", "2", "3" },
+                    Dictionary = new Dictionary<string, string>()
+                    {
+                        { "sample", "sample_value" },
+                        { "sample2", "sample_value2" }
                     }
                 };
 
@@ -38,10 +43,24 @@ namespace Test.DocumentFramework
             }
         }
 
+        private bool CompareEntities(TestEntity source, TestEntity deserialized)
+        {
+            if (!source.Id.Equals(deserialized.Id)) return false;
+            if (source.Enumerable.Union(deserialized.Enumerable).Count() != source.Enumerable.Count()) return false;
+            if (source.Dictionary.Union(deserialized.Dictionary).Count() != source.Dictionary.Count()) return false;
+            if (source.Child?.Id != deserialized.Child?.Id) return false;
+            if (source.ValueObjects != null)
+            {
+                if (source.ValueObjects.Select(x => x.Id).Union(deserialized.ValueObjects.Select(x => x.Id)).Count() != source.ValueObjects.Count()) return false;
+            }
+
+            return true;   
+        }
+
         [TestMethod]
         public void ModelSerialization()
         {
-            Document<TestEntity> document = TestEntity.CreateDocument();
+            TestEntity document = new TestEntity();
             string serialized = document.ToJson();
 
             Assert.IsNotNull(serialized);
@@ -50,21 +69,22 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ModelDeserialization()
         {
-            Document<TestEntity> document = TestEntity.Child.CreateDocument();
+            TestEntity document = TestEntity;
+            document.ResetChilds();
             string serialized = document.ToJson();
-            Document<TestEntity> deserialized = serialized.FromJson<TestEntity>();
+            TestEntity deserialized = serialized.FromJson<TestEntity>();
 
-            Assert.AreEqual(document, deserialized);
+            Assert.IsTrue(CompareEntities(document, deserialized));
         }
 
         [TestMethod]
         public void ModelDeserializationWithChild()
         {
-            Document<TestEntity> document = TestEntity.CreateDocument();
+            TestEntity document = TestEntity;
             string serialized = document.ToJson();
-            Document<TestEntity> deserialized = serialized.FromJson<TestEntity>();
+            TestEntity deserialized = serialized.FromJson<TestEntity>();
 
-            Assert.AreEqual(document, deserialized);
+            Assert.IsTrue(CompareEntities(document, deserialized));
         }
     }
 }

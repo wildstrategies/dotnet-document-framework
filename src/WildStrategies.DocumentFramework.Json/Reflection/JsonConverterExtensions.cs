@@ -13,9 +13,9 @@ namespace WildStrategies.DocumentFramework
             return type.GetProperties();
         }
 
-        public static Dictionary<string, object> ReadValues(this ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public static Dictionary<string, object?> ReadValues(this ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            Dictionary<string, object> values = new Dictionary<string, object>();
+            Dictionary<string, object?> values = new Dictionary<string, object?>();
             System.Reflection.PropertyInfo[] properties = typeToConvert.GetSerializableProperties();
 
             while (reader.Read())
@@ -30,15 +30,18 @@ namespace WildStrategies.DocumentFramework
                     throw new JsonException($"Unexpected JsonToken {reader.TokenType}");
                 }
 
-                string propertyName = reader.GetString();
-                System.Reflection.PropertyInfo property = properties.FirstOrDefault(x => x.Name.Equals(propertyName, StringComparison.InvariantCulture));
-
-                if (property == null)
+                string? propertyName = reader.GetString();
+                if (propertyName != null)
                 {
-                    throw new JsonException($"Unexpected Propertye {propertyName}");
-                }
+                    PropertyInfo? property = properties.FirstOrDefault(x => x.Name.Equals(propertyName, StringComparison.InvariantCulture));
 
-                values.Add(propertyName, JsonSerializer.Deserialize(ref reader, property.PropertyType, options));
+                    if (property == null)
+                    {
+                        throw new JsonException($"Unexpected Property {propertyName}");
+                    }
+
+                    values.Add(propertyName, JsonSerializer.Deserialize(ref reader, property.PropertyType, options));
+                }
 
             }
 
@@ -49,7 +52,7 @@ namespace WildStrategies.DocumentFramework
         {
             Dictionary<string, object> values = reader.ReadValues(typeToConvert, options);
 
-            IDocumentFrameworkObject output = (IDocumentFrameworkObject)Activator.CreateInstance(typeToConvert);
+            IDocumentFrameworkObject output = (IDocumentFrameworkObject)(Activator.CreateInstance(typeToConvert) ?? throw new Exception());
             foreach (System.Reflection.PropertyInfo property in typeToConvert.GetSerializableProperties().Where(x =>
                     x.CanWrite
                     && values.ContainsKey(x.Name)
@@ -68,7 +71,7 @@ namespace WildStrategies.DocumentFramework
             writer.WriteStartObject();
             foreach (System.Reflection.PropertyInfo prop in value.GetType().GetSerializableProperties())
             {
-                object propertyValue = prop.GetValue(value);
+                object? propertyValue = prop.GetValue(value);
                 if (propertyValue != null)
                 {
                     writer.WritePropertyName(prop.Name);
@@ -84,7 +87,7 @@ namespace WildStrategies.DocumentFramework
 
         }
 
-        public static Type GetGenericTypeArgument<TArgument>(this Type typeToConvert)
+        public static Type? GetGenericTypeArgument<TArgument>(this Type typeToConvert)
         {
             if (typeToConvert.IsGenericType)
             {
@@ -98,7 +101,7 @@ namespace WildStrategies.DocumentFramework
             return null;
         }
 
-        public static Type GetGenericType<TArgument>(this Type typeToConvert, Type genericType)
+        public static Type? GetGenericType<TArgument>(this Type typeToConvert, Type genericType)
         {
             Type objectType = GetGenericTypeArgument<TArgument>(typeToConvert);
             if (objectType != null)

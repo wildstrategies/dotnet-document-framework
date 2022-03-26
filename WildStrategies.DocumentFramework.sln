@@ -1,13 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WildStrategies.DocumentFramework", "src\WildStrategies.DocumentFramework\WildStrategies.DocumentFramework.csproj", "{520C0350-79F8-44D3-81F6-DDC254F81E18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WildStrategies.DocumentFramework", "src\WildStrategies.DocumentFramework\WildStrategies.DocumentFramework.csproj", "{520C0350-79F8-44D3-81F6-DDC254F81E18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WildStrategies.DocumentFramework.Json", "src\WildStrategies.DocumentFramework.Json\WildStrategies.DocumentFramework.Json.csproj", "{1D03CA8E-2F6A-4937-A3D1-EA329C3CB66A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WildStrategies.DocumentFramework.Json", "src\WildStrategies.DocumentFramework.Json\WildStrategies.DocumentFramework.Json.csproj", "{1D03CA8E-2F6A-4937-A3D1-EA329C3CB66A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.DocumentFramework", "tests\Test.DocumentFramework\Test.DocumentFramework.csproj", "{A301EC2B-ED08-4236-AE16-2D42A3F5F756}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Shared", "tests\Test.Shared\Test.Shared.csproj", "{7F2BC4B2-9C30-4540-A311-5D44307063E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WildStrategies.DocumentFramework.MongoDB", "src\WildStrategies.DocumentFramework.MongoDB\WildStrategies.DocumentFramework.MongoDB.csproj", "{B45CAACF-DE3C-46D0-9455-2F9BC800E999}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1423C865-4BE1-4BA0-BD74-0C60846FCDFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.MongoDB", "tests\Test.MongoDB\Test.MongoDB.csproj", "{41DD1CAA-6941-45CE-BC7A-9AC69BB5BCFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +35,26 @@ Global
 		{A301EC2B-ED08-4236-AE16-2D42A3F5F756}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A301EC2B-ED08-4236-AE16-2D42A3F5F756}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A301EC2B-ED08-4236-AE16-2D42A3F5F756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F2BC4B2-9C30-4540-A311-5D44307063E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2BC4B2-9C30-4540-A311-5D44307063E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2BC4B2-9C30-4540-A311-5D44307063E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2BC4B2-9C30-4540-A311-5D44307063E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45CAACF-DE3C-46D0-9455-2F9BC800E999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45CAACF-DE3C-46D0-9455-2F9BC800E999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45CAACF-DE3C-46D0-9455-2F9BC800E999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45CAACF-DE3C-46D0-9455-2F9BC800E999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41DD1CAA-6941-45CE-BC7A-9AC69BB5BCFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41DD1CAA-6941-45CE-BC7A-9AC69BB5BCFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41DD1CAA-6941-45CE-BC7A-9AC69BB5BCFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41DD1CAA-6941-45CE-BC7A-9AC69BB5BCFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A301EC2B-ED08-4236-AE16-2D42A3F5F756} = {1423C865-4BE1-4BA0-BD74-0C60846FCDFA}
+		{7F2BC4B2-9C30-4540-A311-5D44307063E1} = {1423C865-4BE1-4BA0-BD74-0C60846FCDFA}
+		{41DD1CAA-6941-45CE-BC7A-9AC69BB5BCFD} = {1423C865-4BE1-4BA0-BD74-0C60846FCDFA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66E69F2F-ED16-44C8-911C-A3B49C5B46EB}

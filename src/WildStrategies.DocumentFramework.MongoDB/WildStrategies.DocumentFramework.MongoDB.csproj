@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>WildStrategies.DocumentFramework</RootNamespace>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<MayorNumber Condition=" '$(MayorNumber)' == '' ">0</MayorNumber>
+		<MinorNumber Condition=" '$(MinorNumber)' == '' ">0</MinorNumber>
+		<RevisionNumber Condition=" '$(RevisionNumber)' == '' ">0</RevisionNumber>
+		<BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
+		<VersionPrefix>$(MayorNumber).$(MinorNumber).$(BuildNumber).$(RevisionNumber)</VersionPrefix>
+		<UserSecretsId>113d18cc-b1e6-443a-bd20-feacd032a195</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+	  <PackageReference Include="MongoDB.Driver" Version="2.15.0" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WildStrategies.DocumentFramework\WildStrategies.DocumentFramework.csproj" />
+  </ItemGroup>
+
+</Project>
