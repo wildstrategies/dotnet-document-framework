@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WildStrategies.DocumentFramework
+﻿namespace WildStrategies.DocumentFramework
 {
     public interface IEntityReadOnlyRepository<T> : IAsyncDisposable, IDisposable where T : IEntity
     {

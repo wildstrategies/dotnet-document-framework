@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.Json;
 
 namespace WildStrategies.DocumentFramework
@@ -15,7 +12,7 @@ namespace WildStrategies.DocumentFramework
 
         public static Dictionary<string, object?> ReadValues(this ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            Dictionary<string, object?> values = new Dictionary<string, object?>();
+            Dictionary<string, object?> values = new();
             System.Reflection.PropertyInfo[] properties = typeToConvert.GetSerializableProperties();
 
             while (reader.Read())
@@ -50,7 +47,7 @@ namespace WildStrategies.DocumentFramework
 
         public static IDocumentFrameworkObject DeserializeFrameworkObject(this ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            Dictionary<string, object> values = reader.ReadValues(typeToConvert, options);
+            Dictionary<string, object?> values = reader.ReadValues(typeToConvert, options);
 
             IDocumentFrameworkObject output = (IDocumentFrameworkObject)(Activator.CreateInstance(typeToConvert) ?? throw new Exception());
             foreach (System.Reflection.PropertyInfo property in typeToConvert.GetSerializableProperties().Where(x =>
@@ -103,7 +100,7 @@ namespace WildStrategies.DocumentFramework
 
         public static Type? GetGenericType<TArgument>(this Type typeToConvert, Type genericType)
         {
-            Type objectType = GetGenericTypeArgument<TArgument>(typeToConvert);
+            Type? objectType = GetGenericTypeArgument<TArgument>(typeToConvert);
             if (objectType != null)
             {
                 return genericType.MakeGenericType(objectType);

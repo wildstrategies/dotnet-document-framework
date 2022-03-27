@@ -4,13 +4,12 @@ namespace Test.Shared
 {
     public static class EntityFactory
     {
-        private readonly static string[] grades = new[] { "a", "b", "c", "d" };
-        private readonly static Randomizer randomizer = new Randomizer();
+        private static readonly string[] grades = new[] { "a", "b", "c", "d" };
 
         private static Faker<RestaurantEntity> restaurantFaker = null!;
         private static Faker<RestaurantAddress> restaurantAddressFaker = null!;
         private static Faker<RestaurantGrade> restaurantGradeFaker = null!;
-        
+
 
         private static Faker<RestaurantEntity> GetRestaurantEntityGenerator()
         {
@@ -36,7 +35,7 @@ namespace Test.Shared
             }
 
             return restaurantGradeFaker;
-        }       
+        }
 
         private static Faker<RestaurantAddress> GetRestaurantAddressGenerator()
         {
@@ -48,13 +47,20 @@ namespace Test.Shared
                         f.Random.Double(),
                         f.Random.Double()
                     });
-                    
+
             }
 
             return restaurantAddressFaker;
         }
 
-        public static RestaurantEntity CreateRestaurant() => GetRestaurantEntityGenerator().Generate();
-        public static IEnumerable<RestaurantEntity> CreateRestaurants(int count) => GetRestaurantEntityGenerator().Generate(count);
+        public static RestaurantEntity CreateRestaurant()
+        {
+            return GetRestaurantEntityGenerator().Generate();
+        }
+
+        public static IEnumerable<RestaurantEntity> CreateRestaurants(int count)
+        {
+            return GetRestaurantEntityGenerator().Generate(count);
+        }
     }
 }

@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Test.Shared;
+﻿using Test.Shared;
 using WildStrategies.DocumentFramework;
 
 namespace Test.MongoDB
@@ -15,7 +9,7 @@ namespace Test.MongoDB
         {
         }
 
-        public RestaurantsRepository(string connectionString, string databaseName, string collectionName) 
+        public RestaurantsRepository(string connectionString, string databaseName, string collectionName)
             : base(connectionString, databaseName, collectionName)
         {
         }

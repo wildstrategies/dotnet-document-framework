@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
@@ -8,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using WildStrategies.DocumentFramework;
 
@@ -17,13 +15,16 @@ namespace Test.MongoDB
     [TestClass]
     public class SetUp
     {
-        private static IConfiguration _configuration = null!;
+#pragma warning disable IDE0052 // Remove unread private members
         private static TestContext _testContext = null!;
+#pragma warning restore IDE0052 // Remove unread private members
+
+        private static IConfiguration _configuration = null!;
         private static string _connectionString = null!;
         private static string _databaseName = null!;
         private static string _collectionName = null!;
 
-        public static MongoDBEntityRepositorySettings RestaurantRepositorySettings => new MongoDBEntityRepositorySettings()
+        public static MongoDBEntityRepositorySettings RestaurantRepositorySettings => new()
         {
             ConnectionString = _connectionString,
             DatabaseName = _databaseName,
@@ -62,13 +63,13 @@ namespace Test.MongoDB
 
             //await _database.DropCollectionAsync(RestaurantRepositorySettings.CollectionName);
 
-            if (_collection.AsQueryable().Count() == 0)
+            if (!_collection.AsQueryable().Any())
             {
-                var jsonData = File.ReadAllText(
+                string? jsonData = File.ReadAllText(
                     $"{Directory.GetCurrentDirectory()}/Data/restaurants.json"
                 );
 
-                var data = BsonSerializer.Deserialize<IEnumerable<dynamic>>(jsonData);
+                IEnumerable<dynamic>? data = BsonSerializer.Deserialize<IEnumerable<dynamic>>(jsonData);
                 await _collection.InsertManyAsync(new dynamic[] { data.First() });
             }
         }

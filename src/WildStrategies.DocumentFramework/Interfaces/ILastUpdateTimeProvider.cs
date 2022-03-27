@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WildStrategies.DocumentFramework
+﻿namespace WildStrategies.DocumentFramework
 {
     public interface ILastUpdateTimeProvider
     {

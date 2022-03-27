@@ -1,12 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 
 namespace WildStrategies.DocumentFramework
 {
     public sealed class ValueObjectCollection<TValue> : DocumentFrameworkObject, IReadOnlyCollection<TValue>
         where TValue : ValueObject
     {
-        private readonly List<TValue> Items = new List<TValue>();
+        private readonly List<TValue> Items = new();
 
         public int Count => Items.Count;
 

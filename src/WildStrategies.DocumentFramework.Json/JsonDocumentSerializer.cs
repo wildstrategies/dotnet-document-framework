@@ -35,7 +35,12 @@ namespace WildStrategies.DocumentFramework
     {
         public TEntity Deserialize<TEntity>(string serialized) where TEntity : Entity
         {
-            return JsonSerializer.Deserialize<TEntity>(serialized, SerializerOptions) ?? throw new ArgumentException(nameof(serialized));
+            if (string.IsNullOrWhiteSpace(serialized))
+            {
+                throw new ArgumentException($"'{nameof(serialized)}' cannot be null or whitespace.", nameof(serialized));
+            }
+
+            return JsonSerializer.Deserialize<TEntity>(serialized, SerializerOptions) ?? throw new Exception();
         }
 
         public string Serialize<TEntity>(TEntity entity) where TEntity : Entity
@@ -46,7 +51,7 @@ namespace WildStrategies.DocumentFramework
 
     public static class JsonDocumentSerializerExtension
     {
-        private static readonly JsonDocumentSerializer serializer = new JsonDocumentSerializer();
+        private static readonly JsonDocumentSerializer serializer = new();
 
         public static TEntity FromJson<TEntity>(this string serialized) where TEntity : Entity
         {

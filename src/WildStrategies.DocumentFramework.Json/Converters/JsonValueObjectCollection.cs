@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -18,7 +16,7 @@ namespace WildStrategies.DocumentFramework
             Type type = typeToConvert.GetGenericTypeArgument<ValueObject>() ?? throw new ArgumentNullException(nameof(typeToConvert));
             type = typeof(JsonValueObjectCollectionConverter<>).MakeGenericType(type);
 
-            return (JsonConverter)(Activator.CreateInstance(type) ?? throw new ArgumentNullException(nameof(type)));
+            return (JsonConverter)(Activator.CreateInstance(type) ?? throw new Exception());
         }
     }
 

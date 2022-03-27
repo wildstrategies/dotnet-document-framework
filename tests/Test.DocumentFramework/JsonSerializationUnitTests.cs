@@ -12,7 +12,7 @@ namespace Test.DocumentFramework
         {
             get
             {
-                TestEntity output = new TestEntity()
+                TestEntity output = new()
                 {
                     Title = "TestEntityTitle",
                     Value = 13,
@@ -43,24 +43,43 @@ namespace Test.DocumentFramework
             }
         }
 
-        private bool CompareEntities(TestEntity source, TestEntity deserialized)
+        private static bool CompareEntities(TestEntity source, TestEntity deserialized)
         {
-            if (!source.Id.Equals(deserialized.Id)) return false;
-            if (source.Enumerable.Union(deserialized.Enumerable).Count() != source.Enumerable.Count()) return false;
-            if (source.Dictionary.Union(deserialized.Dictionary).Count() != source.Dictionary.Count()) return false;
-            if (source.Child?.Id != deserialized.Child?.Id) return false;
-            if (source.ValueObjects != null)
+            if (!source.Id.Equals(deserialized.Id))
             {
-                if (source.ValueObjects.Select(x => x.Id).Union(deserialized.ValueObjects.Select(x => x.Id)).Count() != source.ValueObjects.Count()) return false;
+                return false;
             }
 
-            return true;   
+            if (source.Enumerable.Union(deserialized.Enumerable).Count() != source.Enumerable.Count())
+            {
+                return false;
+            }
+
+            if (source.Dictionary.Union(deserialized.Dictionary).Count() != source.Dictionary.Count)
+            {
+                return false;
+            }
+
+            if (source.Child?.Id != deserialized.Child?.Id)
+            {
+                return false;
+            }
+
+            if (source.ValueObjects != null)
+            {
+                if (source.ValueObjects.Select(x => x.Id).Union(deserialized.ValueObjects.Select(x => x.Id)).Count() != source.ValueObjects.Count)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         [TestMethod]
         public void ModelSerialization()
         {
-            TestEntity document = new TestEntity();
+            TestEntity document = new();
             string serialized = document.ToJson();
 
             Assert.IsNotNull(serialized);

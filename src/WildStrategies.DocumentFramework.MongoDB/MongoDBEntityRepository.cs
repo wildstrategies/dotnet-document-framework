@@ -18,38 +18,44 @@ namespace WildStrategies.DocumentFramework
         {
         }
 
-        private void ValidateEntity(T entity)
+        private static void ValidateEntity(T entity)
         {
             Validator.ValidateObject(entity, new ValidationContext(entity));
 
             entity.GetType().GetProperty(nameof(entity.LastUpdateTime))?.SetValue(entity, DateTime.UtcNow);
         }
 
-        public Task DeleteAsync(T entity) => _collection.DeleteOneAsync(GetFilterById(entity.Id));
+        public Task DeleteAsync(T entity)
+        {
+            return _collection.DeleteOneAsync(GetFilterById(entity.Id));
+        }
 
         public Task UpdateAsync(T entity)
         {
-            ValidateEntity(entity);
+            MongoDBEntityRepository<T>.ValidateEntity(entity);
             return _collection.ReplaceOneAsync(GetFilterById(entity.Id), entity, new ReplaceOptions()
             {
                 IsUpsert = false
             }).ContinueWith(t =>
             {
-                if (t.Result.ModifiedCount == 0) throw new Exception("Entity not found");
+                if (t.Result.ModifiedCount == 0)
+                {
+                    throw new Exception("Entity not found");
+                }
             });
         }
 
         public Task InsertAsync(T entity)
         {
-            ValidateEntity(entity);
+            MongoDBEntityRepository<T>.ValidateEntity(entity);
             return _collection.InsertOneAsync(entity);
         }
 
         public Task InsertManyAsync(IEnumerable<T> entities)
         {
-            foreach(var entity in entities)
+            foreach (T? entity in entities)
             {
-                ValidateEntity(entity);
+                MongoDBEntityRepository<T>.ValidateEntity(entity);
             }
 
             return _collection.InsertManyAsync(entities);
