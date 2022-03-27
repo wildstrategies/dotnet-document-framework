@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -15,9 +13,10 @@ namespace WildStrategies.DocumentFramework
 
         public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
         {
-            return (JsonConverter)Activator.CreateInstance(
-                typeof(JsonValueObjectCollectionConverter<>).MakeGenericType(typeToConvert.GetGenericTypeArgument<ValueObject>())
-            );
+            Type type = typeToConvert.GetGenericTypeArgument<ValueObject>() ?? throw new ArgumentNullException(nameof(typeToConvert));
+            type = typeof(JsonValueObjectCollectionConverter<>).MakeGenericType(type);
+
+            return (JsonConverter)(Activator.CreateInstance(type) ?? throw new Exception());
         }
     }
 
@@ -26,17 +25,21 @@ namespace WildStrategies.DocumentFramework
     {
         public override ValueObjectCollection<TValueObject> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            IEnumerable values = (IEnumerable)JsonSerializer.Deserialize(
+            IEnumerable? values = (IEnumerable?)JsonSerializer.Deserialize(
                 ref reader,
-                typeof(List<>).MakeGenericType(typeToConvert.GetGenericTypeArgument<ValueObject>()),
+                typeof(List<>).MakeGenericType(typeToConvert.GetGenericTypeArgument<ValueObject>() ?? throw new Exception()),
                 options
             );
 
-            ValueObjectCollection<TValueObject> output = (ValueObjectCollection<TValueObject>)Activator.CreateInstance(typeof(ValueObjectCollection<TValueObject>));
+            ValueObjectCollection<TValueObject> output = (ValueObjectCollection<TValueObject>)
+                (Activator.CreateInstance(typeof(ValueObjectCollection<TValueObject>)) ?? throw new Exception());
 
-            foreach (object value in values)
+            if (values != null)
             {
-                output.Add(value as TValueObject);
+                foreach (object value in values)
+                {
+                    output.Add(value as TValueObject ?? throw new Exception());
+                }
             }
 
             return output;

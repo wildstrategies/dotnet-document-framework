@@ -1,11 +1,10 @@
-﻿using NodaTime.Serialization.SystemTextJson;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace WildStrategies.DocumentFramework
 {
     public abstract class JsonDocumentSerializerBase
     {
-        private static JsonSerializerOptions _serializerOptions;
+        private static JsonSerializerOptions? _serializerOptions;
 
         protected static JsonSerializerOptions SerializerOptions
         {
@@ -19,10 +18,9 @@ namespace WildStrategies.DocumentFramework
                         PropertyNameCaseInsensitive = false
                     };
 
-                    _serializerOptions.Converters.Add(new JsonDocumentConverterFactory());
-                    _serializerOptions.Converters.Add(new JsonDocumentFrameworkConverterFactory());
+                    //_serializerOptions.Converters.Add(new JsonDocumentConverterFactory());
                     _serializerOptions.Converters.Add(new JsonValueObjectCollectionConverterFactory());
-                    _serializerOptions.ConfigureForNodaTime(NodaTime.DateTimeZoneProviders.Tzdb);
+                    _serializerOptions.Converters.Add(new JsonDocumentFrameworkConverterFactory());
                 }
 
                 return _serializerOptions;
@@ -33,31 +31,36 @@ namespace WildStrategies.DocumentFramework
     /// <summary>
     ///     Serialize and deserialize documents in JSON format
     /// </summary>
-    public sealed class JsonDocumentSerializer : JsonDocumentSerializerBase, IDocumentSerializer<string>
+    public sealed class JsonDocumentSerializer : JsonDocumentSerializerBase, IEntitySerializer<string>
     {
-        public Document<TEntity> Deserialize<TEntity>(string serialized) where TEntity : Entity
+        public TEntity Deserialize<TEntity>(string serialized) where TEntity : Entity
         {
-            return JsonSerializer.Deserialize<Document<TEntity>>(serialized, SerializerOptions);
+            if (string.IsNullOrWhiteSpace(serialized))
+            {
+                throw new ArgumentException($"'{nameof(serialized)}' cannot be null or whitespace.", nameof(serialized));
+            }
+
+            return JsonSerializer.Deserialize<TEntity>(serialized, SerializerOptions) ?? throw new Exception();
         }
 
-        public string Serialize<TEntity>(Document<TEntity> document) where TEntity : Entity
+        public string Serialize<TEntity>(TEntity entity) where TEntity : Entity
         {
-            return JsonSerializer.Serialize(document, typeof(Document<TEntity>), SerializerOptions);
+            return JsonSerializer.Serialize(entity, typeof(TEntity), SerializerOptions);
         }
     }
 
     public static class JsonDocumentSerializerExtension
     {
-        private static readonly JsonDocumentSerializer serializer = new JsonDocumentSerializer();
+        private static readonly JsonDocumentSerializer serializer = new();
 
-        public static Document<TEntity> FromJson<TEntity>(this string serialized) where TEntity : Entity
+        public static TEntity FromJson<TEntity>(this string serialized) where TEntity : Entity
         {
             return serializer.Deserialize<TEntity>(serialized);
         }
 
-        public static string ToJson<TEntity>(this Document<TEntity> document) where TEntity : Entity
+        public static string ToJson<TEntity>(this TEntity entity) where TEntity : Entity
         {
-            return serializer.Serialize<TEntity>(document);
+            return serializer.Serialize<TEntity>(entity);
         }
     }
 }

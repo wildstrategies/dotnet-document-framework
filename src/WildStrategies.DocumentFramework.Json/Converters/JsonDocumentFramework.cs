@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace WildStrategies.DocumentFramework
@@ -14,9 +12,9 @@ namespace WildStrategies.DocumentFramework
 
         public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
         {
-            return (JsonConverter)Activator.CreateInstance(
+            return (JsonConverter)(Activator.CreateInstance(
                 typeof(JsonDocumentFrameworkConverter<>).MakeGenericType(typeToConvert)
-            );
+            ) ?? throw new Exception());
         }
     }
 
