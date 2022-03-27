@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - src/WildStrategies.DocumentFramework/**
-    #   - src/WildStrategies.DocumentFramework.Json/**
+    paths:
+      - src/WildStrategies.DocumentFramework/**
+      - src/WildStrategies.DocumentFramework.Json/**
 
 
 env:

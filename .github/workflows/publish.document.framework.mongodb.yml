@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - src/WildStrategies.DocumentFramework/**
-    #   - src/WildStrategies.DocumentFramework.MongoDB/**
+    paths:
+      - src/WildStrategies.DocumentFramework/**
+      - src/WildStrategies.DocumentFramework.MongoDB/**
 
 
 env:
