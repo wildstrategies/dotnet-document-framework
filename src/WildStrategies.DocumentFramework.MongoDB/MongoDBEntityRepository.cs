@@ -18,20 +18,41 @@ namespace WildStrategies.DocumentFramework
         {
         }
 
-        public async Task<T> CreateOrUpdate(T entity)
+        private void ValidateEntity(T entity)
         {
             Validator.ValidateObject(entity, new ValidationContext(entity));
 
-            entity.GetType().GetProperty(nameof(entity.LatsUpdateTime))?.SetValue(entity, DateTime.UtcNow);
-
-            var result = await _collection.ReplaceOneAsync(GetFilterById(entity.Id), entity, new ReplaceOptions()
-            {
-                IsUpsert = true
-            });
-
-            return entity;
+            entity.GetType().GetProperty(nameof(entity.LastUpdateTime))?.SetValue(entity, DateTime.UtcNow);
         }
 
-        public Task Delete(T entity) => _collection.DeleteOneAsync(GetFilterById(entity.Id));
+        public Task DeleteAsync(T entity) => _collection.DeleteOneAsync(GetFilterById(entity.Id));
+
+        public Task UpdateAsync(T entity)
+        {
+            ValidateEntity(entity);
+            return _collection.ReplaceOneAsync(GetFilterById(entity.Id), entity, new ReplaceOptions()
+            {
+                IsUpsert = false
+            }).ContinueWith(t =>
+            {
+                if (t.Result.ModifiedCount == 0) throw new Exception("Entity not found");
+            });
+        }
+
+        public Task InsertAsync(T entity)
+        {
+            ValidateEntity(entity);
+            return _collection.InsertOneAsync(entity);
+        }
+
+        public Task InsertManyAsync(IEnumerable<T> entities)
+        {
+            foreach(var entity in entities)
+            {
+                ValidateEntity(entity);
+            }
+
+            return _collection.InsertManyAsync(entities);
+        }
     }
 }

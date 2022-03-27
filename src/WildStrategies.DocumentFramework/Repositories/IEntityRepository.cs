@@ -2,7 +2,9 @@
 {
     public interface IEntityRepository<T> : IEntityReadOnlyRepository<T> where T : Entity
     {
-        Task<T> CreateOrUpdate(T entity);
-        Task Delete(T entity);
+        Task UpdateAsync(T entity);
+        Task InsertAsync(T entity);
+        Task InsertManyAsync(IEnumerable<T> entities);
+        Task DeleteAsync(T entity);
     }
 }

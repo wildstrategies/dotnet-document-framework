@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WildStrategies.DocumentFramework
 {
-    public interface IEntityReadOnlyRepository<T> where T : IEntity
+    public interface IEntityReadOnlyRepository<T> : IAsyncDisposable, IDisposable where T : IEntity
     {
         Task<IEnumerable<T>> GetAsync();
         Task<T?> GetAsync(Guid id);

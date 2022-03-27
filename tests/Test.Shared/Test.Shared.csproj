@@ -8,6 +8,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Bogus" Version="34.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\..\src\WildStrategies.DocumentFramework\WildStrategies.DocumentFramework.csproj" />
 	</ItemGroup>
 

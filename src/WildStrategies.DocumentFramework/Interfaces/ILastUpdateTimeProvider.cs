@@ -1,7 +1,8 @@
-﻿
+﻿using System;
+
 namespace WildStrategies.DocumentFramework
 {
-    public interface IEntity
+    public interface ILastUpdateTimeProvider
     {
         DateTime LastUpdateTime { get; }
     }

@@ -37,13 +37,8 @@ namespace Test.MongoDB
         {
             _configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables("DOTNET_")
-                // .AddUserSecrets(typeof(SetUp).GetTypeInfo().Assembly, true)
+                .AddUserSecrets(typeof(SetUp).GetTypeInfo().Assembly, true)
                 .Build();
-
-            foreach(var item in _configuration.AsEnumerable())
-            {
-                testContext.WriteLine($"{item.Key} => {item.Value}");
-            }
 
             _testContext = testContext;
             _connectionString = _configuration.GetConnectionString("MongoDb");
@@ -74,7 +69,7 @@ namespace Test.MongoDB
                 );
 
                 var data = BsonSerializer.Deserialize<IEnumerable<dynamic>>(jsonData);
-                await _collection.InsertManyAsync(data);
+                await _collection.InsertManyAsync(new dynamic[] { data.First() });
             }
         }
 
@@ -83,15 +78,5 @@ namespace Test.MongoDB
         {
 
         }
-
-        public static RestaurantsRepository GetRestaurantsRepository()
-        {
-            return new RestaurantsRepository(
-                _connectionString,
-                _databaseName,
-                _configuration.GetValue<string>("Settings:RestaurantsCollectionName")
-            );
-        }
-
     }
 }

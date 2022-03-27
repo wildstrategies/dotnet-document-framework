@@ -16,6 +16,8 @@ namespace WildStrategies.DocumentFramework
         private readonly IMongoClient _client;
         private readonly IMongoDatabase _database;
         protected readonly IMongoCollection<T> _collection;
+        protected FilterDefinition<T> GetFilterById(Guid id) =>
+            Builders<T>.Filter.Eq(nameof(Entity.Id), id);
 
         public MongoDBEntitytReadonlyRepository(
             string connectionString,
@@ -55,9 +57,6 @@ namespace WildStrategies.DocumentFramework
             _collection = _database.GetCollection<T>(collectionName);
         }
 
-        protected FilterDefinition<T> GetFilterById(Guid id) =>
-            Builders<T>.Filter.Eq(nameof(Entity.Id), id);
-
         public MongoDBEntitytReadonlyRepository(MongoDBEntityRepositorySettings settings) :
             this(settings.ConnectionString, settings.DatabaseName, settings.CollectionName)
         { }
@@ -71,5 +70,15 @@ namespace WildStrategies.DocumentFramework
         public Task<IEnumerable<T>> GetAsync() => _collection.Find(new BsonDocument()).ToListAsync().ContinueWith(task => task.Result.AsEnumerable());
 
         public Task<T?> GetAsync(Guid id) => Task.FromResult(AsQueryable().FirstOrDefault(x => x.Id.Equals(id)));
+
+        public ValueTask DisposeAsync()
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

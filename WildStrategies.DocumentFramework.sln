@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WildStrategies.DocumentFram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.DocumentFramework", "tests\Test.DocumentFramework\Test.DocumentFramework.csproj", "{A301EC2B-ED08-4236-AE16-2D42A3F5F756}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Shared", "tests\Test.Shared\Test.Shared.csproj", "{7F2BC4B2-9C30-4540-A311-5D44307063E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Shared", "tests\Test.Shared\Test.Shared.csproj", "{7F2BC4B2-9C30-4540-A311-5D44307063E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WildStrategies.DocumentFramework.MongoDB", "src\WildStrategies.DocumentFramework.MongoDB\WildStrategies.DocumentFramework.MongoDB.csproj", "{B45CAACF-DE3C-46D0-9455-2F9BC800E999}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WildStrategies.DocumentFramework.MongoDB", "src\WildStrategies.DocumentFramework.MongoDB\WildStrategies.DocumentFramework.MongoDB.csproj", "{B45CAACF-DE3C-46D0-9455-2F9BC800E999}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1423C865-4BE1-4BA0-BD74-0C60846FCDFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.MongoDB", "tests\Test.MongoDB\Test.MongoDB.csproj", "{41DD1CAA-6941-45CE-BC7A-9AC69BB5BCFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.MongoDB", "tests\Test.MongoDB\Test.MongoDB.csproj", "{41DD1CAA-6941-45CE-BC7A-9AC69BB5BCFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

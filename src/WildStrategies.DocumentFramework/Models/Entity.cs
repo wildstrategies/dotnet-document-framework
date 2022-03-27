@@ -1,8 +1,10 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace WildStrategies.DocumentFramework
 {
-    public abstract class Entity : ValueObject, ILatsUpdateTimeProvider, IEntity
+    public abstract class Entity : ValueObject, ILastUpdateTimeProvider, IEntity
     {
-        public DateTime LatsUpdateTime { get; protected set; } = DateTime.UtcNow;
+        [Required] public DateTime LastUpdateTime { get; protected set; } = DateTime.UtcNow;
     }
 }
