@@ -36,9 +36,14 @@ namespace Test.MongoDB
         public static async Task Initialize(TestContext testContext)
         {
             _configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .AddUserSecrets(typeof(SetUp).GetTypeInfo().Assembly, true)
+                .AddEnvironmentVariables("DOTNET_")
+                // .AddUserSecrets(typeof(SetUp).GetTypeInfo().Assembly, true)
                 .Build();
+
+            foreach(var item in _configuration.AsEnumerable())
+            {
+                testContext.WriteLine($"{item.Key} => {item.Value}");
+            }
 
             _testContext = testContext;
             _connectionString = _configuration.GetConnectionString("MongoDb");

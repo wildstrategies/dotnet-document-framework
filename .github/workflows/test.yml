@@ -27,7 +27,7 @@ jobs:
           mongodb-version: '5.0'
       - name: Test
         env:
-          CUSTOMCONNSTR_MONGODB: mongodb://localhost:27017
+          DOTNET_CONNECTIONSTRINGS__MONGODB: mongodb://localhost:27017
           DOTNET_SETTINGS__DATABASENAME: test
           DOTNET_SETTINGS__RESTAURANTSCOLLECTIONNAME: test
         run: |
