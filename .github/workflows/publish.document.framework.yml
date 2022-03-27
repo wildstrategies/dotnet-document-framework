@@ -3,9 +3,9 @@ name: NuGet - Main Package
 on:
   push:
     branches:
-      - master
-    paths:
-      - src/WildStrategies.DocumentFramework/**
+      - main
+    # paths:
+    #   - src/WildStrategies.DocumentFramework/**
 
 
 env:

@@ -3,9 +3,10 @@ name: NuGet - MongoDB Support
 on:
   push:
     branches:
-      - master
-    paths:
-      - src/WildStrategies.DocumentFramework.MongoDB/**
+      - main
+    # paths:
+    #   - src/WildStrategies.DocumentFramework/**
+    #   - src/WildStrategies.DocumentFramework.MongoDB/**
 
 
 env:

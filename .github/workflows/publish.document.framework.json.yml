@@ -3,10 +3,10 @@ name: NuGet - Json Support
 on:
   push:
     branches:
-      - master
-    paths:
-      - src/WildStrategies.DocumentFramework/**
-      - src/WildStrategies.DocumentFramework.Json/**
+      - main
+    # paths:
+    #   - src/WildStrategies.DocumentFramework/**
+    #   - src/WildStrategies.DocumentFramework.Json/**
 
 
 env:
