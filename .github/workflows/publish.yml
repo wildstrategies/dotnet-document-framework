@@ -1,25 +1,23 @@
-name: NuGet - MongoDB Support
+name: NuGet
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - src/WildStrategies.DocumentFramework/**
-      - src/WildStrategies.DocumentFramework.MongoDB/**
-
+on: workflow_dispatch
 
 env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   MAYORNUMBER: 1
   MINORNUMBER: 0
-  PROJECT_PATH: src/WildStrategies.DocumentFramework.MongoDB
-
-
 
 jobs:
   build-nuget:
     name: Build and publish nuget package
+    strategy:
+      matrix:
+        project: [ 
+          "src/WildStrategies.DocumentFramework", 
+          "src/WildStrategies.DocumentFramework.Json", 
+          "src/WildStrategies.DocumentFramework.MongoDB"
+        ]
+        
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -41,7 +39,7 @@ jobs:
             -p:MinorNumber=${MINORNUMBER:=0} \
             -p:BuildNumber=${GITHUB_RUN_NUMBER:=0} \
             -p:RevisionNumber=${REVISIONNUMBER:=0} \
-            $PROJECT_PATH
+            ${{ matrix.project }}
       - name: Publish
         run: |
           rm -f ./artifacts/*.symbols.nupkg

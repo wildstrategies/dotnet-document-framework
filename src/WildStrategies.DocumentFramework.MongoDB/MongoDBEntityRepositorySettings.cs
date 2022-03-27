@@ -7,7 +7,7 @@ namespace WildStrategies.DocumentFramework
         [Required] public string ConnectionString { get; init; } = null!;
     }
 
-    public sealed class MongoDBEntityRepositorySettings : MongoDBEntityRepositoryBaseSettings
+    public class MongoDBEntityRepositorySettings : MongoDBEntityRepositoryBaseSettings
     {
         public MongoDBEntityRepositorySettings() { }
         [Required] public string DatabaseName { get; init; } = null!;
