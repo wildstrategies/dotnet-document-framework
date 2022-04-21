@@ -87,7 +87,8 @@ namespace Test.MongoDB
             entities.Add(Repository.AsQueryable().First());
             try
             {
-                await Repository.InsertManyAsync(entities); Assert.Fail();
+                await Repository.InsertManyAsync(entities);
+                Assert.Fail();
             }
             catch { }
         }
