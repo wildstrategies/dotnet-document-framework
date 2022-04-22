@@ -1,13 +1,15 @@
-﻿using WildStrategies.DocumentFramework;
+﻿using System.ComponentModel.DataAnnotations;
+using WildStrategies.DocumentFramework;
 
 namespace Test.DocumentFramework.Models
 {
     public class TestEntity : Entity
     {
-        public string Title { get; init; } = null!;
-        public int Value { get; init; }
-        public DateTime LocalDate { get; init; } = DateTime.UtcNow;
+        [Required] public string Title { get; set; } = null!;
+        public int Value { get; set; }
+        public DateTime LocalDate { get; set; } = DateTime.UtcNow;
         public TestEntity? Child { get; set; }
+        [Required] public TestSubentity SubEntity { get; set; } = null!;
         public ValueObjectCollection<TestValueObject> ValueObjects { get; private set; } = new ValueObjectCollection<TestValueObject>();
         public void ResetChilds()
         {
@@ -15,12 +17,17 @@ namespace Test.DocumentFramework.Models
             Child = null;
         }
 
-        public IEnumerable<string> Enumerable { get; init; } = Array.Empty<string>();
-        public IDictionary<string, string> Dictionary { get; init; } = new Dictionary<string, string>();
-    }
+        public TestObject? NotValidatableObject { get; set; }
 
-    public class TestValueObject : ValueObject
-    {
-        public string? ValueTitle { get; init; }
+        public IEnumerable<TestSubentity> Subentities { get; set; } = Array.Empty<TestSubentity>();
+
+        public IEnumerable<string> Enumerable { get; set; } = Array.Empty<string>();
+        public IDictionary<string, string> Dictionary { get; set; } = new Dictionary<string, string>();
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var results = base.Validate(validationContext);
+            return results;
+        }
     }
 }

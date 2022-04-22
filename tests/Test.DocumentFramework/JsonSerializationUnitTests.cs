@@ -8,7 +8,7 @@ namespace Test.DocumentFramework
     [TestCategory("JsonSerialization")]
     public class JsonSerializationUnitTests
     {
-        private static TestEntity TestEntity
+        public static TestEntity TestEntity
         {
             get
             {
