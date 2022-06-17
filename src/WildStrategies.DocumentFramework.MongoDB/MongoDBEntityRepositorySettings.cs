@@ -5,6 +5,7 @@ namespace WildStrategies.DocumentFramework
     public class MongoDBEntityRepositoryBaseSettings
     {
         [Required] public string ConnectionString { get; init; } = null!;
+        [Required] public bool AllowInsecureTls { get; init; } = false;
     }
 
     public class MongoDBEntityRepositorySettings : MongoDBEntityRepositoryBaseSettings

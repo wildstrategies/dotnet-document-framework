@@ -18,7 +18,8 @@ namespace WildStrategies.DocumentFramework
         public MongoDBEntitytReadonlyRepository(
             string connectionString,
             string databaseName,
-            string collectionName
+            string collectionName,
+            bool allowInsecureTls
         )
         {
             if (string.IsNullOrEmpty(connectionString))
@@ -40,18 +41,18 @@ namespace WildStrategies.DocumentFramework
             /* TODO: Manage Allow insecure TLS using settings */
             settings.AllowInsecureTls = true;
 
-            _client = new MongoClient(settings);
+            _client = ClientFactory.GetClient(connectionString, allowInsecureTls);
 
             _database = _client.GetDatabase(databaseName);
             _collection = _database.GetCollection<T>(collectionName);
         }
 
         public MongoDBEntitytReadonlyRepository(MongoDBEntityRepositorySettings settings) :
-            this(settings.ConnectionString, settings.DatabaseName, settings.CollectionName)
+            this(settings.ConnectionString, settings.DatabaseName, settings.CollectionName, settings.AllowInsecureTls)
         { }
 
         public MongoDBEntitytReadonlyRepository(IOptions<MongoDBEntityRepositorySettings> settings) :
-                this(settings.Value.ConnectionString, settings.Value.DatabaseName, settings.Value.CollectionName)
+                this(settings.Value.ConnectionString, settings.Value.DatabaseName, settings.Value.CollectionName, settings.Value.AllowInsecureTls)
         { }
 
         public IQueryable<T> AsQueryable()
