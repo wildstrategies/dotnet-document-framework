@@ -46,7 +46,7 @@ namespace Test.MongoDB
             _databaseName = _configuration.GetValue<string>("Settings:DatabaseName");
             _collectionName = _configuration.GetValue<string>("Settings:RestaurantsCollectionName");
 
-            //await CheckCollection();
+            await CheckCollection();
         }
 
         private static async Task CheckCollection()
