@@ -21,6 +21,8 @@ namespace WildStrategies.DocumentFramework
                     //_serializerOptions.Converters.Add(new JsonDocumentConverterFactory());
                     _serializerOptions.Converters.Add(new JsonValueObjectCollectionConverterFactory());
                     _serializerOptions.Converters.Add(new JsonDocumentFrameworkConverterFactory());
+                    _serializerOptions.Converters.Add(new DateOnlyJsonConverterFactory());
+                    _serializerOptions.Converters.Add(new TimeOnlyJsonConverterFactory());
                 }
 
                 return _serializerOptions;

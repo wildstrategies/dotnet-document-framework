@@ -24,6 +24,15 @@ namespace Test.DocumentFramework.Models
         public IEnumerable<string> Enumerable { get; set; } = Array.Empty<string>();
         public IDictionary<string, string> Dictionary { get; set; } = new Dictionary<string, string>();
 
+        [Required] public DateOnly dateOnly { get; private set; } = DateOnly.MinValue;
+        [Required] public TimeOnly timeOnly { get; private set; } = TimeOnly.MinValue;
+        public DateOnly? NullableDateOnly { get; private set; }
+        public TimeOnly? NullableTimeOnly { get; private set; }
+
+        public DateOnly? NullableDateOnlyWithValue { get; private set; } = DateOnly.FromDateTime(DateTime.Now);
+        public TimeOnly? NullableTimeOnlyWithValue { get; private set; } = TimeOnly.FromDateTime(DateTime.Now);
+
+
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = base.Validate(validationContext);
