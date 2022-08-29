@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace WildStrategies.DocumentFramework
@@ -8,7 +7,7 @@ namespace WildStrategies.DocumentFramework
     {
         public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return DateOnly.Parse(JsonSerializer.Deserialize<string>(ref reader));
+            return DateOnly.Parse(JsonSerializer.Deserialize<string>(ref reader) ?? throw new NullReferenceException());
         }
 
         public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)

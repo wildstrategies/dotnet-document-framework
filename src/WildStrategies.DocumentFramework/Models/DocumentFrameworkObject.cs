@@ -13,14 +13,14 @@ namespace WildStrategies.DocumentFramework
                 var value = prop.GetValue(this);
                 if (value != null)
                 {
-                    List<ValidationResult> results = new List<ValidationResult>();
+                    List<ValidationResult> results = new();
                     if (prop.PropertyType == typeof(string))
                     {
 
                     }
                     else if (prop.PropertyType.GetInterface(nameof(IEnumerable)) != null)
                     {
-                        foreach (var item in (value as IEnumerable))
+                        foreach (var item in (value as IEnumerable) ?? throw new NullReferenceException())
                         {
                             Validator.TryValidateObject(item, new ValidationContext(item, validationContext.Items), results);
                             foreach (var result in results)
