@@ -31,10 +31,12 @@ namespace WildStrategies.DocumentFramework
             foreach (var item in Items)
             {
                 List<ValidationResult> errors = new List<ValidationResult>();
-                var results = Validator.TryValidateObject(item, new ValidationContext(item, null, null), errors);
-                foreach (var result in errors)
+                if (!Validator.TryValidateObject(item, new ValidationContext(item, null, null), errors))
                 {
-                    yield return result;
+                    foreach (var result in errors)
+                    {
+                        yield return result;
+                    }
                 }
             }
         }
