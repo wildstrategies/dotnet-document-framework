@@ -13,42 +13,32 @@ namespace Test.Shared
 
         private static Faker<RestaurantEntity> GetRestaurantEntityGenerator()
         {
-            if (restaurantFaker == null)
-            {
-                restaurantFaker = new Faker<RestaurantEntity>()
+            restaurantFaker ??= new Faker<RestaurantEntity>()
                     .RuleForType(typeof(string), f => f.Random.Word())
                     .RuleFor(f => f.address, f => GetRestaurantAddressGenerator())
                     .RuleFor(f => f.grades, f => GetRestaurantGradeGenerator().GenerateBetween(0, 10));
-            }
 
             return restaurantFaker;
         }
 
         private static Faker<RestaurantGrade> GetRestaurantGradeGenerator()
         {
-            if (restaurantGradeFaker == null)
-            {
-                restaurantGradeFaker = new Faker<RestaurantGrade>()
+            restaurantGradeFaker ??= new Faker<RestaurantGrade>()
                     .RuleFor(f => f.date, f => f.Date.Past())
                     .RuleFor(f => f.score, f => f.Random.Int(1, 5))
                     .RuleFor(f => f.grade, f => f.PickRandom(grades));
-            }
 
             return restaurantGradeFaker;
         }
 
         private static Faker<RestaurantAddress> GetRestaurantAddressGenerator()
         {
-            if (restaurantAddressFaker == null)
-            {
-                restaurantAddressFaker = new Faker<RestaurantAddress>()
+            restaurantAddressFaker ??= new Faker<RestaurantAddress>()
                     .RuleForType(typeof(string), f => f.Random.Word())
                     .RuleFor(x => x.coord, f => new double[] {
                         f.Random.Double(),
                         f.Random.Double()
                     });
-
-            }
 
             return restaurantAddressFaker;
         }

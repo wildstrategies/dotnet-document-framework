@@ -14,7 +14,7 @@ namespace WildStrategies.DocumentFramework
         {
         }
 
-        protected MongoDBEntityRepository(string connectionString, string databaseName, string collectionName, bool allowInsecureTls) : 
+        protected MongoDBEntityRepository(string connectionString, string databaseName, string collectionName, bool allowInsecureTls) :
             base(connectionString, databaseName, collectionName, allowInsecureTls)
         {
         }
