@@ -7,8 +7,6 @@ namespace WildStrategies.DocumentFramework
 
     public abstract class MongoDBEntitytReadonlyRepository<T> : IEntityReadOnlyRepository<T> where T : Entity
     {
-        private readonly IMongoClient _client;
-        private readonly IMongoDatabase _database;
         protected readonly IMongoCollection<T> _collection;
         protected FilterDefinition<T> GetFilterById(Guid id)
         {
@@ -41,9 +39,8 @@ namespace WildStrategies.DocumentFramework
             /* TODO: Manage Allow insecure TLS using settings */
             settings.AllowInsecureTls = true;
 
-            _client = ClientFactory.GetClient(connectionString, allowInsecureTls);
-
-            _database = _client.GetDatabase(databaseName);
+            IMongoClient _client = ClientFactory.GetClient(connectionString, allowInsecureTls);
+            IMongoDatabase _database = _client.GetDatabase(databaseName);
             _collection = _database.GetCollection<T>(collectionName);
         }
 

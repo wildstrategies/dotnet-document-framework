@@ -14,11 +14,7 @@ namespace WildStrategies.DocumentFramework
                 if (value != null)
                 {
                     List<ValidationResult> results = new();
-                    if (prop.PropertyType == typeof(string))
-                    {
-
-                    }
-                    else if (prop.PropertyType.GetInterface(nameof(IEnumerable)) != null)
+                    if (prop.PropertyType != typeof(string) && prop.PropertyType.GetInterface(nameof(IEnumerable)) != null)
                     {
                         foreach (var item in (value as IEnumerable) ?? throw new NullReferenceException())
                         {
