@@ -22,6 +22,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\WildStrategies.DocumentFramework.Json\WildStrategies.DocumentFramework.Json.csproj" />
 		<ProjectReference Include="..\..\src\WildStrategies.DocumentFramework\WildStrategies.DocumentFramework.csproj" />
+		<ProjectReference Include="..\Test.Shared\Test.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

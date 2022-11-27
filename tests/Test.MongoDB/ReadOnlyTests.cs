@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
-using Test.Shared;
+using Test.Shared.Entities;
 
 namespace Test.MongoDB
 {

@@ -1,4 +1,4 @@
-﻿namespace Test.DocumentFramework.Models
+namespace Test.Shared.Models
 {
     public class TestObject
     {

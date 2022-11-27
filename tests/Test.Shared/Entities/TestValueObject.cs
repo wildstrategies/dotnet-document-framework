@@ -1,6 +1,6 @@
-﻿using WildStrategies.DocumentFramework;
+using WildStrategies.DocumentFramework;
 
-namespace Test.DocumentFramework.Models
+namespace Test.Shared.Models
 {
     public class TestValueObject : ValueObject
     {

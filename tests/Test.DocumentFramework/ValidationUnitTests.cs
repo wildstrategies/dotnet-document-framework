@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
-using Test.DocumentFramework.Models;
+using Test.Shared;
+using Test.Shared.Models;
 
 namespace Test.DocumentFramework
 {
@@ -9,27 +10,18 @@ namespace Test.DocumentFramework
     public class ValidationUnitTests
     {
         [TestMethod]
-        public void ValidEntity()
+        public void InvalidEntity()
         {
-            TestEntity document = new();
+            TestEntity document = EntityFactory.InvalidTestEntity;
             Assert.ThrowsException<ValidationException>(() =>
                 Validator.ValidateObject(document, new ValidationContext(document))
             );
         }
 
         [TestMethod]
-        public void ValidSubEntity()
+        public void InvalidValidSubEntityProperties()
         {
-            TestEntity document = JsonSerializationUnitTests.TestEntity;
-            Assert.ThrowsException<ValidationException>(() =>
-                Validator.ValidateObject(document, new ValidationContext(document))
-            );
-        }
-
-        [TestMethod]
-        public void ValidSubEntityProperties()
-        {
-            TestEntity document = JsonSerializationUnitTests.TestEntity;
+            TestEntity document = EntityFactory.InvalidTestEntity;
             document.SubEntity = new();
             Assert.ThrowsException<ValidationException>(() =>
                 Validator.ValidateObject(document, new ValidationContext(document))
@@ -37,17 +29,14 @@ namespace Test.DocumentFramework
         }
 
         [TestMethod]
-        public void ValidSubEntityCollectionProperties()
+        public void InvalidSubEntityCollectionProperties()
         {
-            TestEntity document = JsonSerializationUnitTests.TestEntity;
-            document.SubEntity = new TestSubentity()
+            TestEntity document = EntityFactory.InvalidTestEntity;
+            document.SubEntity = EntityFactory.ValidTestEntity.SubEntity;
+            document.Subentities = new List<TestSubentity>()
             {
-                RequiredString = "AAAA",
-                MaxStringLength = 10
+                new TestSubentity()
             };
-            document.Subentities = new[] { new TestSubentity() };
-            document.Child = null;
-            document.NotValidatableObject = new TestObject();
 
             Assert.ThrowsException<ValidationException>(() =>
                 Validator.ValidateObject(document, new ValidationContext(document), true)

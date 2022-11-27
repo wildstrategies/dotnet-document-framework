@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Test.Shared
+namespace Test.Shared.Entities
 {
     public sealed class RestaurantAddress
     {

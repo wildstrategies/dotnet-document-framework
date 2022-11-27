@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Test.Shared;
+using Test.Shared.Entities;
 
 namespace Test.MongoDB
 {

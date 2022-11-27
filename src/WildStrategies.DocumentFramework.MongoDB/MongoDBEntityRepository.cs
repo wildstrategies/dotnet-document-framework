@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,11 +11,6 @@ namespace WildStrategies.DocumentFramework
         }
 
         protected MongoDBEntityRepository(IOptions<MongoDBEntityRepositorySettings> settings) : base(settings)
-        {
-        }
-
-        protected MongoDBEntityRepository(string connectionString, string databaseName, string collectionName, bool allowInsecureTls) :
-            base(connectionString, databaseName, collectionName, allowInsecureTls)
         {
         }
 
