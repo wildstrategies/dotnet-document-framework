@@ -5,10 +5,9 @@ using MongoDB.Driver;
 namespace WildStrategies.DocumentFramework
 {
 
-    public abstract class MongoDBEntitytReadonlyRepository<T> : IEntityReadOnlyRepository<T> where T : Entity
+    public class MongoDBEntitytReadonlyRepository<T> : IEntityReadOnlyRepository<T> where T : Entity
     {
         protected readonly IMongoCollection<T> _collection;
-        private readonly MongoDBEntityRepositorySettings _settings;
 
         protected FilterDefinition<T> GetFilterById(Guid id)
         {
@@ -17,7 +16,6 @@ namespace WildStrategies.DocumentFramework
 
         public MongoDBEntitytReadonlyRepository(MongoDBEntityRepositorySettings settings)
         {
-            _settings = settings;
             if (string.IsNullOrEmpty(settings.ConnectionString))
             {
                 throw new ArgumentException($"'{nameof(settings.ConnectionString)}' cannot be null or empty.", nameof(settings.ConnectionString));

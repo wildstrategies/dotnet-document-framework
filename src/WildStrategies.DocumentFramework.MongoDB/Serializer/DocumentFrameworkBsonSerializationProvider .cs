@@ -7,9 +7,6 @@ namespace WildStrategies.DocumentFramework.Serializer
     {
         private static readonly ConcurrentDictionary<Type, IBsonSerializer> _cache = new ConcurrentDictionary<Type, IBsonSerializer>();
 
-        private static readonly DateOnlySerializer dateOnlySerializer = new DateOnlySerializer();
-        private static readonly TimeOnlySerializer timeOnlySerializer = new TimeOnlySerializer();
-
         public IBsonSerializer? GetSerializer(Type type)
         {
             IBsonSerializer? output = null;
