@@ -45,7 +45,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ModelSerialization()
         {
-            TestEntity document = new();
+            TestEntity document = EntityFactory.ValidTestEntity;
             string serialized = document.ToJson();
 
             Assert.IsNotNull(serialized);
@@ -54,7 +54,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ModelDeserialization()
         {
-            TestEntity document = EntityFactory.InvalidTestEntity;
+            TestEntity document = EntityFactory.ValidTestEntity;
             document.ResetChilds();
             string serialized = document.ToJson();
             TestEntity deserialized = serialized.FromJson<TestEntity>();
@@ -65,7 +65,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ModelDeserializationWithChild()
         {
-            TestEntity document = EntityFactory.InvalidTestEntity;
+            TestEntity document = EntityFactory.ValidTestEntity;
             string serialized = document.ToJson();
             TestEntity deserialized = serialized.FromJson<TestEntity>();
 

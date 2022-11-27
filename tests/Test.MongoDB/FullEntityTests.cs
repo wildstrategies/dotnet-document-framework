@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
 using Test.MongoDB.Repositories;
+using Test.Shared;
 using Test.Shared.Models;
 
 namespace Test.MongoDB
@@ -22,13 +23,13 @@ namespace Test.MongoDB
         [TestMethod]
         public async Task SerializeEntity()
         {
-            await Repository.InsertAsync(new TestDictionaryEntity());
+            await Repository.InsertAsync(EntityFactory.ValidTestEntity);
         }
 
         [TestMethod]
         public async Task DeserializeEntity()
         {
-            var entity = new TestDictionaryEntity();
+            var entity = EntityFactory.ValidTestEntity;
             await Repository.InsertAsync(entity);
             var deserializedEntity = await Repository.GetAsync(entity.Id);
             Assert.IsTrue(entity != null);

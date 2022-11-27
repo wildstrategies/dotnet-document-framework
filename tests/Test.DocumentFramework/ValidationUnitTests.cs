@@ -10,16 +10,7 @@ namespace Test.DocumentFramework
     public class ValidationUnitTests
     {
         [TestMethod]
-        public void ValidEntity()
-        {
-            TestEntity document = new();
-            Assert.ThrowsException<ValidationException>(() =>
-                Validator.ValidateObject(document, new ValidationContext(document))
-            );
-        }
-
-        [TestMethod]
-        public void ValidSubEntity()
+        public void InvalidEntity()
         {
             TestEntity document = EntityFactory.InvalidTestEntity;
             Assert.ThrowsException<ValidationException>(() =>
@@ -28,7 +19,7 @@ namespace Test.DocumentFramework
         }
 
         [TestMethod]
-        public void ValidSubEntityProperties()
+        public void InvalidValidSubEntityProperties()
         {
             TestEntity document = EntityFactory.InvalidTestEntity;
             document.SubEntity = new();
@@ -38,7 +29,7 @@ namespace Test.DocumentFramework
         }
 
         [TestMethod]
-        public void ValidSubEntityCollectionProperties()
+        public void InvalidSubEntityCollectionProperties()
         {
             TestEntity document = EntityFactory.InvalidTestEntity;
             document.SubEntity = EntityFactory.ValidTestEntity.SubEntity;

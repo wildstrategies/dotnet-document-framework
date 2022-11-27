@@ -56,6 +56,48 @@ namespace Test.Shared
             return GetRestaurantEntityGenerator().Generate(count);
         }
 
+        public static TestDictionaryEntity ValidTestDictionaryEntity
+        {
+            get
+            {
+                return new TestDictionaryEntity()
+                {
+                    MetadataObject = new TestEntityMetadata()
+                    {
+                        { "Test1", "Value1" },
+                        { "Test2", "Value2" },
+                        { "Test3", "Value3" }
+                    },
+                    MetadataSimple = new Dictionary<string, string>()
+                    {
+                        { "Test1", "Value1" },
+                        { "Test2", "Value2" },
+                        { "Test3", "Value3" }
+                    },
+                    StringObjectDictionary = new TestEntityStringObjectDictionary<TestObject>()
+                    {
+                        { "Object1", new TestObject() },
+                        { "Object2", new TestObject() },
+                        { "Object3", new TestObject() },
+                    },
+                    GuidIntDictionary = new()
+                    {
+                        { Guid.NewGuid(), 1 },
+                        { Guid.NewGuid(), 2 },
+                        { Guid.NewGuid(), 3 },
+                    },
+                    GuidObjectDictionary = new()
+                    {
+                        { Guid.NewGuid(), new TestObject(){ Name="Name1" } },
+                        { Guid.NewGuid(), new TestObject(){ Name="Name2" } },
+                        { Guid.NewGuid(), new TestObject(){ Name="Name3" } },
+                        { Guid.NewGuid(), new TestObject(){ Name="Name4" } },
+                        { Guid.NewGuid(), new TestObject(){ Name="Name5" } }
+                    }
+                };
+            }
+        }
+
         public static TestEntity ValidTestEntity
         {
             get
@@ -96,6 +138,38 @@ namespace Test.Shared
                     {
                         { "sample", "sample_value" },
                         { "sample2", "sample_value2" }
+                    },
+                    MetadataObject = new TestEntityMetadata()
+                    {
+                        { "Test1", "Value1" },
+                        { "Test2", "Value2" },
+                        { "Test3", "Value3" }
+                    },
+                    MetadataSimple = new Dictionary<string, string>()
+                    {
+                        { "Test1", "Value1" },
+                        { "Test2", "Value2" },
+                        { "Test3", "Value3" }
+                    },
+                    StringObjectDictionary = new TestEntityStringObjectDictionary<TestObject>()
+                    {
+                        { "Object1", new TestObject() },
+                        { "Object2", new TestObject() },
+                        { "Object3", new TestObject() },
+                    },
+                    GuidIntDictionary = new()
+                    {
+                        { Guid.NewGuid(), 1 },
+                        { Guid.NewGuid(), 2 },
+                        { Guid.NewGuid(), 3 },
+                    },
+                    GuidObjectDictionary = new()
+                    {
+                        { Guid.NewGuid(), new TestObject(){ Name="Name1" } },
+                        { Guid.NewGuid(), new TestObject(){ Name="Name2" } },
+                        { Guid.NewGuid(), new TestObject(){ Name="Name3" } },
+                        { Guid.NewGuid(), new TestObject(){ Name="Name4" } },
+                        { Guid.NewGuid(), new TestObject(){ Name="Name5" } }
                     }
                 };
 
