@@ -1,7 +1,7 @@
-﻿using Test.Shared;
+using Test.Shared.Entities;
 using WildStrategies.DocumentFramework;
 
-namespace Test.MongoDB
+namespace Test.MongoDB.Repositories
 {
     public class RestaurantsRepository : MongoDBEntityRepository<RestaurantEntity>
     {

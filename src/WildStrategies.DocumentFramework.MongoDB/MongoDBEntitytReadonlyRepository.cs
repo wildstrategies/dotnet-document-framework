@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Configuration;
+using System.Collections;
 
 namespace WildStrategies.DocumentFramework
 {
@@ -8,49 +10,37 @@ namespace WildStrategies.DocumentFramework
     public abstract class MongoDBEntitytReadonlyRepository<T> : IEntityReadOnlyRepository<T> where T : Entity
     {
         protected readonly IMongoCollection<T> _collection;
+        private readonly MongoDBEntityRepositorySettings _settings;
+
         protected FilterDefinition<T> GetFilterById(Guid id)
         {
             return Builders<T>.Filter.Eq(nameof(Entity.Id), id);
         }
 
-        public MongoDBEntitytReadonlyRepository(
-            string connectionString,
-            string databaseName,
-            string collectionName,
-            bool allowInsecureTls
-        )
+        public MongoDBEntitytReadonlyRepository(MongoDBEntityRepositorySettings settings)
         {
-            if (string.IsNullOrEmpty(connectionString))
+            _settings = settings;
+            if (string.IsNullOrEmpty(settings.ConnectionString))
             {
-                throw new ArgumentException($"'{nameof(connectionString)}' cannot be null or empty.", nameof(connectionString));
+                throw new ArgumentException($"'{nameof(settings.ConnectionString)}' cannot be null or empty.", nameof(settings.ConnectionString));
             }
 
-            if (string.IsNullOrEmpty(databaseName))
+            if (string.IsNullOrEmpty(settings.DatabaseName))
             {
-                throw new ArgumentException($"'{nameof(databaseName)}' cannot be null or empty.", nameof(databaseName));
+                throw new ArgumentException($"'{nameof(settings.DatabaseName)}' cannot be null or empty.", nameof(settings.DatabaseName));
+            }
+            if (string.IsNullOrEmpty(settings.CollectionName))
+            {
+                throw new ArgumentException($"'{nameof(settings.CollectionName)}' cannot be null or empty.", nameof(settings.CollectionName));
             }
 
-            if (string.IsNullOrEmpty(collectionName))
-            {
-                throw new ArgumentException($"'{nameof(collectionName)}' cannot be null or empty.", nameof(collectionName));
-            }
+            MongoDBDocumentFrameworkClient _client = new MongoDBDocumentFrameworkClient(settings);
+            IMongoDatabase _database = _client.GetDatabase(settings.DatabaseName);
+            _collection = _database.GetCollection<T>(settings.CollectionName);
 
-            MongoClientSettings settings = MongoClientSettings.FromConnectionString(connectionString);
-            /* TODO: Manage Allow insecure TLS using settings */
-            settings.AllowInsecureTls = true;
-
-            IMongoClient _client = ClientFactory.GetClient(connectionString, allowInsecureTls);
-            IMongoDatabase _database = _client.GetDatabase(databaseName);
-            _collection = _database.GetCollection<T>(collectionName);
         }
 
-        public MongoDBEntitytReadonlyRepository(MongoDBEntityRepositorySettings settings) :
-            this(settings.ConnectionString, settings.DatabaseName, settings.CollectionName, settings.AllowInsecureTls)
-        { }
-
-        public MongoDBEntitytReadonlyRepository(IOptions<MongoDBEntityRepositorySettings> settings) :
-                this(settings.Value.ConnectionString, settings.Value.DatabaseName, settings.Value.CollectionName, settings.Value.AllowInsecureTls)
-        { }
+        public MongoDBEntitytReadonlyRepository(IOptions<MongoDBEntityRepositorySettings> settings) : this(settings.Value) { }
 
         public IQueryable<T> AsQueryable()
         {

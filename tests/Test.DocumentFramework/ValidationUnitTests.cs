@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
-using Test.DocumentFramework.Models;
+using Test.Shared;
+using Test.Shared.Models;
 
 namespace Test.DocumentFramework
 {
@@ -20,7 +21,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ValidSubEntity()
         {
-            TestEntity document = JsonSerializationUnitTests.TestEntity;
+            TestEntity document = EntityFactory.TestEntity;
             Assert.ThrowsException<ValidationException>(() =>
                 Validator.ValidateObject(document, new ValidationContext(document))
             );
@@ -29,7 +30,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ValidSubEntityProperties()
         {
-            TestEntity document = JsonSerializationUnitTests.TestEntity;
+            TestEntity document = EntityFactory.TestEntity;
             document.SubEntity = new();
             Assert.ThrowsException<ValidationException>(() =>
                 Validator.ValidateObject(document, new ValidationContext(document))
@@ -39,7 +40,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ValidSubEntityCollectionProperties()
         {
-            TestEntity document = JsonSerializationUnitTests.TestEntity;
+            TestEntity document = EntityFactory.TestEntity;
             document.SubEntity = new TestSubentity()
             {
                 RequiredString = "AAAA",

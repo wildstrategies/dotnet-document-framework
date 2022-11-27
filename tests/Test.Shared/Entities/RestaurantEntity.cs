@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using WildStrategies.DocumentFramework;
 
-namespace Test.Shared
+namespace Test.Shared.Entities
 {
     public sealed class RestaurantEntity : Entity
     {

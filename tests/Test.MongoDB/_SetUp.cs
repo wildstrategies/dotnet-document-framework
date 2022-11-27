@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
+using Test.Shared.Models;
 using WildStrategies.DocumentFramework;
 
 namespace Test.MongoDB
@@ -30,6 +32,12 @@ namespace Test.MongoDB
             DatabaseName = _databaseName,
             CollectionName = _collectionName
         };
+        public static MongoDBEntityRepositorySettings TestEntityRepositorySettings => new()
+        {
+            ConnectionString = _connectionString,
+            DatabaseName = _databaseName,
+            CollectionName = "test-entities"
+        };
 
         public static readonly Guid DocumentId = Guid.Parse("892d4eaa-4d03-4aed-84d1-7cf8baaecd0b");
 
@@ -42,20 +50,26 @@ namespace Test.MongoDB
                 .Build();
 
             _testContext = testContext;
-            _connectionString = _configuration.GetConnectionString("MongoDb");
-            _databaseName = _configuration.GetValue<string>("Settings:DatabaseName");
-            _collectionName = _configuration.GetValue<string>("Settings:RestaurantsCollectionName");
+            _connectionString = _configuration.GetConnectionString("MongoDb") ?? throw new NullReferenceException();
+            _databaseName = _configuration.GetValue<string>("Settings:DatabaseName") ?? throw new NullReferenceException();
+            _collectionName = _configuration.GetValue<string>("Settings:RestaurantsCollectionName") ?? throw new NullReferenceException();
 
-            await CheckCollection();
+            await CheckCollections();
         }
 
-        private static async Task CheckCollection()
+        private static async Task CheckCollections()
         {
-            MongoClientSettings settings = MongoClientSettings.FromConnectionString(RestaurantRepositorySettings.ConnectionString);
-            /* TODO: Manage Allow insecure TLS using settings */
-            settings.AllowInsecureTls = true;
+            // Test concurrency
+            for (int i = 0; i < 50; i++)
+            {
+                ThreadPool.QueueUserWorkItem(args =>
+                {
+                    IMongoClient _client = new MongoDBDocumentFrameworkClient(RestaurantRepositorySettings);
+                });
+            }
 
-            IMongoClient _client = new MongoClient(settings);
+
+            IMongoClient _client = new MongoDBDocumentFrameworkClient(RestaurantRepositorySettings);
             IMongoDatabase _database = _client.GetDatabase(_databaseName);
             IMongoCollection<dynamic> _collection = _database.GetCollection<dynamic>(
                     RestaurantRepositorySettings.CollectionName
@@ -71,6 +85,14 @@ namespace Test.MongoDB
 
                 IEnumerable<dynamic>? data = BsonSerializer.Deserialize<IEnumerable<dynamic>>(jsonData);
                 await _collection.InsertManyAsync(new dynamic[] { data.First() });
+            }
+
+            _database.DropCollection(TestEntityRepositorySettings.CollectionName);
+            _collection = _database.GetCollection<dynamic>(TestEntityRepositorySettings.CollectionName);
+
+            if (!_collection.AsQueryable().Any())
+            {
+                await _collection.InsertOneAsync(Shared.EntityFactory.TestEntity);
             }
         }
 

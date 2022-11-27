@@ -1,26 +1,47 @@
-﻿using MongoDB.Driver;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 using WildStrategies.DocumentFramework.Serializer;
 
 namespace WildStrategies.DocumentFramework
 {
-    internal static class ClientFactory
+    public sealed class MongoDBDocumentFrameworkClient : MongoClient
     {
+        private static object _lockObject = new object();
         private static bool SerializationInitialized = false;
+
+        private static readonly Dictionary<Type, IBsonSerializer> Serializers = new Dictionary<Type, IBsonSerializer>()
+        {
+            { typeof(DateOnly), new DateOnlySerializer() },
+            { typeof(TimeOnly), new TimeOnlySerializer() },
+        };
 
         private static void InitSerialization()
         {
-            MongoDB.Bson.Serialization.BsonSerializer.RegisterSerializer(new DateOnlySerializer());
-            MongoDB.Bson.Serialization.BsonSerializer.RegisterSerializer(new TimeOnlySerializer());
-            SerializationInitialized = true;
+            if (!SerializationInitialized)
+            {
+                lock (_lockObject)
+                {
+                    foreach (var serializer in Serializers)
+                    {
+                        BsonSerializer.RegisterSerializer(serializer.Key, serializer.Value);
+                    }
+                    SerializationInitialized = true;
+                }
+            }
+
         }
 
-        public static MongoClient GetClient(string connectionString, bool allowInsecureTls)
+        private static MongoClientSettings GetMongoClientSettings(MongoDBEntityRepositoryBaseSettings settings)
         {
-            if (!SerializationInitialized) InitSerialization();
-            MongoClientSettings clientSettings = MongoClientSettings.FromConnectionString(connectionString);
-            clientSettings.AllowInsecureTls = allowInsecureTls;
+            MongoClientSettings output = MongoClientSettings.FromConnectionString(settings.ConnectionString);
+            output.AllowInsecureTls = settings.AllowInsecureTls;
+            return output;
+        }
 
-            return new MongoClient(clientSettings);
+        public MongoDBDocumentFrameworkClient(MongoDBEntityRepositoryBaseSettings settings)
+            : base(GetMongoClientSettings(settings))
+        {
+            InitSerialization();
         }
     }
 }
