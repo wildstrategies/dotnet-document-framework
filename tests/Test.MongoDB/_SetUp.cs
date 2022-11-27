@@ -9,7 +9,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Test.Shared.Models;
 using WildStrategies.DocumentFramework;
 
 namespace Test.MongoDB
@@ -89,11 +88,6 @@ namespace Test.MongoDB
 
             _database.DropCollection(TestEntityRepositorySettings.CollectionName);
             _collection = _database.GetCollection<dynamic>(TestEntityRepositorySettings.CollectionName);
-
-            if (!_collection.AsQueryable().Any())
-            {
-                await _collection.InsertOneAsync(Shared.EntityFactory.TestEntity);
-            }
         }
 
         [AssemblyCleanup]

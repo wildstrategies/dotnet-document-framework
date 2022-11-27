@@ -1,8 +1,6 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Configuration;
-using System.Collections;
 
 namespace WildStrategies.DocumentFramework
 {

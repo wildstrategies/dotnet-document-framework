@@ -21,7 +21,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ValidSubEntity()
         {
-            TestEntity document = EntityFactory.TestEntity;
+            TestEntity document = EntityFactory.InvalidTestEntity;
             Assert.ThrowsException<ValidationException>(() =>
                 Validator.ValidateObject(document, new ValidationContext(document))
             );
@@ -30,7 +30,7 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ValidSubEntityProperties()
         {
-            TestEntity document = EntityFactory.TestEntity;
+            TestEntity document = EntityFactory.InvalidTestEntity;
             document.SubEntity = new();
             Assert.ThrowsException<ValidationException>(() =>
                 Validator.ValidateObject(document, new ValidationContext(document))
@@ -40,15 +40,12 @@ namespace Test.DocumentFramework
         [TestMethod]
         public void ValidSubEntityCollectionProperties()
         {
-            TestEntity document = EntityFactory.TestEntity;
-            document.SubEntity = new TestSubentity()
+            TestEntity document = EntityFactory.InvalidTestEntity;
+            document.SubEntity = EntityFactory.ValidTestEntity.SubEntity;
+            document.Subentities = new List<TestSubentity>()
             {
-                RequiredString = "AAAA",
-                MaxStringLength = 10
+                new TestSubentity()
             };
-            document.Subentities = new[] { new TestSubentity() };
-            document.Child = null;
-            document.NotValidatableObject = new TestObject();
 
             Assert.ThrowsException<ValidationException>(() =>
                 Validator.ValidateObject(document, new ValidationContext(document), true)

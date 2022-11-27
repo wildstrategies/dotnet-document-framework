@@ -6,29 +6,36 @@ namespace WildStrategies.DocumentFramework
 {
     public sealed class MongoDBDocumentFrameworkClient : MongoClient
     {
-        private static object _lockObject = new object();
+        private static readonly object _lockObject = new object();
         private static bool SerializationInitialized = false;
 
         private static readonly Dictionary<Type, IBsonSerializer> Serializers = new Dictionary<Type, IBsonSerializer>()
         {
             { typeof(DateOnly), new DateOnlySerializer() },
-            { typeof(TimeOnly), new TimeOnlySerializer() },
+            { typeof(TimeOnly), new TimeOnlySerializer() }
         };
 
         private static void InitSerialization()
         {
             if (!SerializationInitialized)
             {
-                lock (_lockObject)
-                {
-                    foreach (var serializer in Serializers)
-                    {
-                        BsonSerializer.RegisterSerializer(serializer.Key, serializer.Value);
-                    }
-                    SerializationInitialized = true;
-                }
+                BsonSerializer.RegisterSerializationProvider(new DocumentFrameworkBsonSerializationProvider());
+                SerializationInitialized = true;
             }
 
+            //
+            //{
+            //    lock (_lockObject)
+            //    {
+            //        foreach (var serializer in Serializers)
+            //        {
+            //            BsonSerializer.RegisterSerializer(serializer.Key, serializer.Value);
+            //        }
+
+
+            //        SerializationInitialized = true;
+            //    }
+            //}
         }
 
         private static MongoClientSettings GetMongoClientSettings(MongoDBEntityRepositoryBaseSettings settings)

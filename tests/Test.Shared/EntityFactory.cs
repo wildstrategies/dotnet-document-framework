@@ -45,6 +45,7 @@ namespace Test.Shared
             return restaurantAddressFaker;
         }
 
+
         public static RestaurantEntity CreateRestaurant()
         {
             return GetRestaurantEntityGenerator().Generate();
@@ -55,7 +56,29 @@ namespace Test.Shared
             return GetRestaurantEntityGenerator().Generate(count);
         }
 
-        public static TestEntity TestEntity
+        public static TestEntity ValidTestEntity
+        {
+            get
+            {
+                var document = InvalidTestEntity;
+                document.SubEntity = new TestSubentity()
+                {
+                    RequiredString = "AAAA",
+                    MaxStringLength = 10
+                };
+                document.Subentities = new[] {
+                    new TestSubentity() {
+                        RequiredString = "AAAA",
+                        MaxStringLength = 2
+                    }
+                };
+                document.Child = null;
+                document.NotValidatableObject = new TestObject();
+                return document;
+            }
+        }
+
+        public static TestEntity InvalidTestEntity
         {
             get
             {
