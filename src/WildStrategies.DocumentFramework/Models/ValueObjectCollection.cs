@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace WildStrategies.DocumentFramework
@@ -30,7 +30,7 @@ namespace WildStrategies.DocumentFramework
         {
             foreach (var item in Items)
             {
-                List<ValidationResult> errors = new List<ValidationResult>();
+                List<ValidationResult> errors = new();
                 if (!Validator.TryValidateObject(item, new ValidationContext(item, null, null), errors))
                 {
                     foreach (var result in errors)
