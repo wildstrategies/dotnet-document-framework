@@ -5,7 +5,7 @@ on: workflow_dispatch
 env:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   MAYORNUMBER: 1
-  MINORNUMBER: 0
+  MINORNUMBER: 1
 
 jobs:
   build-nuget:
