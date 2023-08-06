@@ -5,7 +5,7 @@
 		<IsPackable>false</IsPackable>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UserSecretsId>113d18cc-b1e6-443a-bd20-feacd032a195</UserSecretsId>
+		<UserSecretsId>ws.document-framework</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -10,14 +10,14 @@ namespace Test.MongoDB
     [TestClass]
     public class FullEntityTests
     {
-        protected static TestDictionaryEntitiesRepository Repository { get; private set; } = null!;
+        protected static TestEntitiesRepository Repository { get; private set; } = null!;
 
         [ClassInitialize]
 #pragma warning disable IDE0060 // Remove unused parameter
         public static void Init(TestContext context)
 #pragma warning restore IDE0060 // Remove unused parameter
         {
-            Repository = new TestDictionaryEntitiesRepository(SetUp.TestEntityRepositorySettings);
+            Repository = new TestEntitiesRepository(SetUp.TestEntityRepositorySettings);
         }
 
         [TestMethod]

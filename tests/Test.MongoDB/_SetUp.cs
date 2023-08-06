@@ -9,6 +9,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Test.Shared;
+using Test.Shared.Entities;
 using WildStrategies.DocumentFramework;
 
 namespace Test.MongoDB
@@ -59,35 +61,36 @@ namespace Test.MongoDB
         private static async Task CheckCollections()
         {
             // Test concurrency
-            for (int i = 0; i < 50; i++)
-            {
-                ThreadPool.QueueUserWorkItem(args =>
-                {
-                    IMongoClient _client = new MongoDBDocumentFrameworkClient(RestaurantRepositorySettings);
-                });
-            }
+            //for (int i = 0; i < 50; i++)
+            //{
+            //    ThreadPool.QueueUserWorkItem(args =>
+            //    {
+            //        IMongoClient _client = new MongoDBDocumentFrameworkClient(RestaurantRepositorySettings);
+            //    });
+            //}
 
 
             IMongoClient _client = new MongoDBDocumentFrameworkClient(RestaurantRepositorySettings);
             IMongoDatabase _database = _client.GetDatabase(_databaseName);
-            IMongoCollection<dynamic> _collection = _database.GetCollection<dynamic>(
+            IMongoCollection<RestaurantEntity> _collection = _database.GetCollection<RestaurantEntity>(
                     RestaurantRepositorySettings.CollectionName
                 );
 
             await _database.DropCollectionAsync(RestaurantRepositorySettings.CollectionName);
+            await _collection.InsertManyAsync(EntityFactory.CreateRestaurants(100));
 
-            if (!_collection.AsQueryable().Any())
-            {
-                string? jsonData = File.ReadAllText(
-                    $"{Directory.GetCurrentDirectory()}/Data/restaurants.json"
-                );
+            //if (!_collection.AsQueryable().Any())
+            //{
+            //    string? jsonData = File.ReadAllText(
+            //        $"{Directory.GetCurrentDirectory()}/Data/restaurants.json"
+            //    );
 
-                IEnumerable<dynamic>? data = BsonSerializer.Deserialize<IEnumerable<dynamic>>(jsonData);
-                await _collection.InsertManyAsync(new dynamic[] { data.First() });
-            }
+            //    //IEnumerable<RestaurantEntity>? data = BsonSerializer.Deserialize<IEnumerable<RestaurantEntity>>(jsonData);
+            //    //await _collection.InsertManyAsync(new dynamic[] { data.First() });
+            //}
 
-            _database.DropCollection(TestEntityRepositorySettings.CollectionName);
-            _collection = _database.GetCollection<dynamic>(TestEntityRepositorySettings.CollectionName);
+            //_database.DropCollection(TestEntityRepositorySettings.CollectionName);
+            //_collection = _database.GetCollection<RestaurantEntity>(TestEntityRepositorySettings.CollectionName);
         }
 
         [AssemblyCleanup]
