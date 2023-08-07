@@ -8,7 +8,7 @@ namespace Test.Shared.Models
 
         public TestEntityMetadata MetadataObject { get; init; } = null!;
 
-        public TestEntityStringObjectDictionary<TestObject> StringObjectDictionary { get; init; } = null!;
+        public Dictionary<string, TestObject> StringObjectDictionary { get; init; } = null!;
 
         public Dictionary<Guid, int> GuidIntDictionary { get; init; } = null!;
 

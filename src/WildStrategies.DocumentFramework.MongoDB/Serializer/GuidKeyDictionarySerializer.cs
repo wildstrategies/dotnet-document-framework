@@ -6,7 +6,7 @@ namespace WildStrategies.DocumentFramework.Serializer
     internal class GuidKeyDictionarySerializer<T> : DictionarySerializerBase<Dictionary<Guid, T>>
     {
         public GuidKeyDictionarySerializer() :
-            base(DictionaryRepresentation.Document, new GuidStringSerializer(), new ObjectSerializer())
+            base(DictionaryRepresentation.Document, new GuidStringSerializer(), new ObjectSerializer(t => t == typeof(T)))
         {
 
         }

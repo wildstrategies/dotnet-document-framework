@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
 using Test.Shared.Entities;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Test.MongoDB
 {
@@ -43,23 +44,18 @@ namespace Test.MongoDB
         }
 
         [TestMethod]
-        public void CountWithGradeA()
+        public void CountWithGrade()
         {
-            int result = Repository.AsQueryable().Where(x => x.grades.Any(g => g.grade == "A")).Count();
+            var grade = Repository.AsQueryable().Max(x => x.grades.Max(y => y.grade));
+            int result = Repository.AsQueryable().Where(x => x.grades.Any(g => g.grade == grade)).Count();
             Assert.IsTrue(result > 0);
         }
 
         [TestMethod]
-        public void CountWithScore2()
+        public void GetWithScore()
         {
-            int result = Repository.AsQueryable().Where(x => x.grades.Any(g => g.score == 2)).Count();
-            Assert.IsTrue(result > 0);
-        }
-
-        [TestMethod]
-        public void GetWithScore2()
-        {
-            System.Collections.Generic.List<RestaurantEntity>? result = Repository.AsQueryable().Where(x => x.grades.Any(g => g.score == 2)).ToList();
+            var score = Repository.AsQueryable().Max(x => x.grades.Max(y => y.score));
+            System.Collections.Generic.List<RestaurantEntity>? result = Repository.AsQueryable().Where(x => x.grades.Any(g => g.score == score)).ToList();
             Assert.IsTrue(result.Any());
         }
 

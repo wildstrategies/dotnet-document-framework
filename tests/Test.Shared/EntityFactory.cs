@@ -74,7 +74,7 @@ namespace Test.Shared
                         { "Test2", "Value2" },
                         { "Test3", "Value3" }
                     },
-                    StringObjectDictionary = new TestEntityStringObjectDictionary<TestObject>()
+                    StringObjectDictionary = new Dictionary<string, TestObject>()
                     {
                         { "Object1", new TestObject() },
                         { "Object2", new TestObject() },
@@ -151,7 +151,7 @@ namespace Test.Shared
                         { "Test2", "Value2" },
                         { "Test3", "Value3" }
                     },
-                    StringObjectDictionary = new TestEntityStringObjectDictionary<TestObject>()
+                    StringObjectDictionary = new Dictionary<string, TestObject>()
                     {
                         { "Object1", new TestObject() },
                         { "Object2", new TestObject() },

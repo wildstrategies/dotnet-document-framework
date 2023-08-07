@@ -3,8 +3,9 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<UserSecretsId>113d18cc-b1e6-443a-bd20-feacd032a195</UserSecretsId>
+		<UserSecretsId>ws.document-framework</UserSecretsId>
 		<IsPackable>false</IsPackable>
+		<SonarQubeExclude>true</SonarQubeExclude>
 	</PropertyGroup>
 
 	<ItemGroup>
