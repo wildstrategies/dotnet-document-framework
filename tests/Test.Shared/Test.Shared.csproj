@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<UserSecretsId>ws.document-framework</UserSecretsId>
+		<SonarQubeExclude>true</SonarQubeExclude>
 	</PropertyGroup>
 
 	<ItemGroup>

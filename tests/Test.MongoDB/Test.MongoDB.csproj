@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<UserSecretsId>ws.document-framework</UserSecretsId>
 		<IsPackable>false</IsPackable>
+		<SonarQubeExclude>true</SonarQubeExclude>
 	</PropertyGroup>
 
 	<ItemGroup>
