@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/lib/">
+    <Project Path="src/WildStrategies.DocumentFramework.Json/WildStrategies.DocumentFramework.Json.csproj" />
+    <Project Path="src/WildStrategies.DocumentFramework.MongoDB/WildStrategies.DocumentFramework.MongoDB.csproj" />
+    <Project Path="src/WildStrategies.DocumentFramework/WildStrategies.DocumentFramework.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Test.DocumentFramework/Test.DocumentFramework.csproj" />
+    <Project Path="tests/Test.MongoDB/Test.MongoDB.csproj" />
+    <Project Path="tests/Test.Shared/Test.Shared.csproj" />
+  </Folder>
+</Solution>

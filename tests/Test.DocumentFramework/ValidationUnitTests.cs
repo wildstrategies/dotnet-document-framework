@@ -13,9 +13,15 @@ namespace Test.DocumentFramework
         public void InvalidEntity()
         {
             TestEntity document = EntityFactory.InvalidTestEntity;
-            Assert.ThrowsException<ValidationException>(() =>
-                Validator.ValidateObject(document, new ValidationContext(document))
-            );
+            try
+            {
+                Validator.ValidateObject(document, new ValidationContext(document));
+                Assert.Fail("ValidationException should have been thrown.");
+            }
+            catch (ValidationException)
+            {
+                // Expected
+            }
         }
 
         [TestMethod]
@@ -23,9 +29,15 @@ namespace Test.DocumentFramework
         {
             TestEntity document = EntityFactory.InvalidTestEntity;
             document.SubEntity = new();
-            Assert.ThrowsException<ValidationException>(() =>
-                Validator.ValidateObject(document, new ValidationContext(document))
-            );
+            try
+            {
+                Validator.ValidateObject(document, new ValidationContext(document));
+                Assert.Fail("ValidationException should have been thrown.");
+            }
+            catch (ValidationException)
+            {
+                // Expected
+            }
         }
 
         [TestMethod]
@@ -38,9 +50,15 @@ namespace Test.DocumentFramework
                 new TestSubentity()
             };
 
-            Assert.ThrowsException<ValidationException>(() =>
-                Validator.ValidateObject(document, new ValidationContext(document), true)
-            );
+            try
+            {
+                Validator.ValidateObject(document, new ValidationContext(document), true);
+                Assert.Fail("ValidationException should have been thrown.");
+            }
+            catch (ValidationException)
+            {
+                // Expected
+            }
         }
     }
 }

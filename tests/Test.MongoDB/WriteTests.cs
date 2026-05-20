@@ -21,7 +21,15 @@ namespace Test.MongoDB
         public async Task AddEmptyEntityAsync()
         {
             RestaurantEntity? entity = new();
-            await Assert.ThrowsExceptionAsync<ValidationException>(() => Repository.UpdateAsync(entity));
+            try
+            {
+                await Repository.UpdateAsync(entity);
+                Assert.Fail("ValidationException should have been thrown.");
+            }
+            catch (ValidationException)
+            {
+                // Expected
+            }
         }
 
         [TestMethod]

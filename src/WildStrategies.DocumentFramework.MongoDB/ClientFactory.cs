@@ -4,7 +4,7 @@ using WildStrategies.DocumentFramework.Serializer;
 
 namespace WildStrategies.DocumentFramework
 {
-    public sealed class MongoDBDocumentFrameworkClient : MongoClient
+    public static class MongoDBDocumentFrameworkClient
     {
         private static bool SerializationInitialized = false;
 
@@ -24,10 +24,10 @@ namespace WildStrategies.DocumentFramework
             return output;
         }
 
-        public MongoDBDocumentFrameworkClient(MongoDBEntityRepositoryBaseSettings settings)
-            : base(GetMongoClientSettings(settings))
+        public static IMongoClient Create(MongoDBEntityRepositoryBaseSettings settings)
         {
             InitSerialization();
+            return new MongoClient(GetMongoClientSettings(settings));
         }
     }
 }

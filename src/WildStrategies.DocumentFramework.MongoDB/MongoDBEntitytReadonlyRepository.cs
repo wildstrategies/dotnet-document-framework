@@ -30,7 +30,7 @@ namespace WildStrategies.DocumentFramework
                 throw new ArgumentException($"'{nameof(settings.CollectionName)}' cannot be null or empty.", nameof(settings.CollectionName));
             }
 
-            MongoDBDocumentFrameworkClient _client = new MongoDBDocumentFrameworkClient(settings);
+            IMongoClient _client = MongoDBDocumentFrameworkClient.Create(settings);
             IMongoDatabase _database = _client.GetDatabase(settings.DatabaseName);
             _collection = _database.GetCollection<T>(settings.CollectionName);
 

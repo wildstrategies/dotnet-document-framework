@@ -65,12 +65,12 @@ namespace Test.MongoDB
             //{
             //    ThreadPool.QueueUserWorkItem(args =>
             //    {
-            //        IMongoClient _client = new MongoDBDocumentFrameworkClient(RestaurantRepositorySettings);
+            //        IMongoClient _client = MongoDBDocumentFrameworkClient.Create(RestaurantRepositorySettings);
             //    });
             //}
 
 
-            IMongoClient _client = new MongoDBDocumentFrameworkClient(RestaurantRepositorySettings);
+            IMongoClient _client = MongoDBDocumentFrameworkClient.Create(RestaurantRepositorySettings);
             IMongoDatabase _database = _client.GetDatabase(_databaseName);
             IMongoCollection<RestaurantEntity> _collection = _database.GetCollection<RestaurantEntity>(
                     RestaurantRepositorySettings.CollectionName
