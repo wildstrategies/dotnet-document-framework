@@ -1,20 +1,21 @@
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using WildStrategies.DocumentFramework.Serializer;
 
 namespace WildStrategies.DocumentFramework
 {
-    public sealed class MongoDBDocumentFrameworkClient : MongoClient
+    public static class MongoDBDocumentFrameworkClient
     {
-        private static bool SerializationInitialized = false;
+        private static bool _serializationInitialized = false;
 
         private static void InitSerialization()
         {
-            if (!SerializationInitialized)
-            {
-                BsonSerializer.RegisterSerializationProvider(new DocumentFrameworkBsonSerializationProvider());
-                SerializationInitialized = true;
-            }
+            if (_serializationInitialized) return;
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));
+            BsonSerializer.RegisterSerializationProvider(new DocumentFrameworkBsonSerializationProvider());
+            _serializationInitialized = true;
         }
 
         private static MongoClientSettings GetMongoClientSettings(MongoDBEntityRepositoryBaseSettings settings)
@@ -24,10 +25,10 @@ namespace WildStrategies.DocumentFramework
             return output;
         }
 
-        public MongoDBDocumentFrameworkClient(MongoDBEntityRepositoryBaseSettings settings)
-            : base(GetMongoClientSettings(settings))
+        public static IMongoClient Create(MongoDBEntityRepositoryBaseSettings settings)
         {
             InitSerialization();
+            return new MongoClient(GetMongoClientSettings(settings));
         }
     }
 }
